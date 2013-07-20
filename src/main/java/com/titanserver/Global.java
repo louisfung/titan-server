@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.net.Socket;
 import java.util.Hashtable;

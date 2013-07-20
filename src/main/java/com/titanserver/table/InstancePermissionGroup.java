@@ -1,4 +1,4 @@
-package com.c2.pandoraserver.table;
+package com.titanserver.table;
 
 import static javax.persistence.GenerationType.IDENTITY;
 

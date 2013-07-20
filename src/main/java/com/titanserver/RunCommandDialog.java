@@ -1,12 +1,9 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,10 +14,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
-import net.sf.json.JSONObject;
-
-import com.c2.pandoraserver.openstack_communication.OpenstackComm;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
+import com.titanserver.openstack_communication.OpenstackComm;
 
 public class RunCommandDialog extends JDialog {
 

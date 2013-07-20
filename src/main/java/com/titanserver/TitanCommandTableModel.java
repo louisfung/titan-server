@@ -1,14 +1,12 @@
-package com.c2.pandoraserver;
-
-import java.util.Map;
+package com.titanserver;
 
 import javax.swing.table.DefaultTableModel;
 
-public class PandoraCommandTableModel extends DefaultTableModel {
-	String columnNames[] = { "Pandora command" };
+public class TitanCommandTableModel extends DefaultTableModel {
+	String columnNames[] = { "Titan command" };
 	String values[] = { "get screen permissions", "get instance permissions", "get users", "get screen permission groups", "get instance permission groups" };
 
-	public PandoraCommandTableModel() {
+	public TitanCommandTableModel() {
 	}
 
 	public String getColumnName(int column) {

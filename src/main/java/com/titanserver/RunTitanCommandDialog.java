@@ -1,13 +1,10 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,31 +12,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
-
-import net.sf.json.JSONObject;
-
-import com.c2.pandoraserver.openstack_communication.OpenstackComm;
-import com.c2.pandoraserver.table.InstancePermission;
-import com.c2.pandoraserver.table.InstancePermissionGroup;
-import com.c2.pandoraserver.table.ScreenPermission;
-import com.c2.pandoraserver.table.ScreenPermissionGroup;
-import com.c2.pandoraserver.table.User;
-import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-public class RunPandoraCommandDialog extends JDialog {
+import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
+import com.titanserver.table.InstancePermission;
+import com.titanserver.table.InstancePermissionGroup;
+import com.titanserver.table.ScreenPermission;
+import com.titanserver.table.ScreenPermissionGroup;
+import com.titanserver.table.User;
+
+public class RunTitanCommandDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private EnhancedTextArea enhancedTextArea;
 	ParameterTableModel parameterTableModel = new ParameterTableModel();
 	JTextArea textArea;
 
-	public RunPandoraCommandDialog(JFrame f) {
+	public RunTitanCommandDialog(JFrame f) {
 		super(f, true);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

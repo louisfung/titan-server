@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.io.FileOutputStream;
 import java.net.InetAddress;
@@ -18,15 +18,15 @@ import org.apache.log4j.Logger;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
-import com.c2.pandoraserver.structure.PandoraServerDefinition;
+import com.titanserver.structure.TitanServerDefinition;
 
-public class PandoraServer {
+public class TitanServer {
 	private static CommandLine cmd;
 	private boolean isStopped = false;
 	private ServerSocket serverSocket;
 	private ServerSocket agentSocket;
 
-	private static Logger logger = Logger.getLogger(PandoraServerCommonLib.class);
+	private static Logger logger = Logger.getLogger(TitanServerCommonLib.class);
 
 	public static void main(String[] args) {
 		try {
@@ -40,7 +40,7 @@ public class PandoraServer {
 		try {
 			options.addOption("v", "version", false, "display version info");
 			options.addOption("t", "test", false, "test database connection");
-			options.addOption("s", "sample_setting", false, "create sample pandora-server.xml");
+			options.addOption("s", "sample_setting", false, "create sample titan-server.xml");
 			options.addOption("g", "gui", false, "launch the gui, it can do logging or some testings to nova/cinder/keystone/etc...");
 			cmd = parser.parse(options, args);
 		} catch (ParseException e1) {
@@ -50,22 +50,22 @@ public class PandoraServer {
 		if (cmd.hasOption("version") || cmd.hasOption("v")) {
 			System.out.println("version : " + Global.version);
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("run : java -jar pandora-server.jar [OPTION]", options);
+			formatter.printHelp("run : java -jar titan-server.jar [OPTION]", options);
 			System.exit(0);
 		}
 
 		if (cmd.hasOption("t") || cmd.hasOption("test")) {
-			if (PandoraServerCommonLib.isUserTableEmpty()) {
-				PandoraServerCommonLib.initDB();
+			if (TitanServerCommonLib.isUserTableEmpty()) {
+				TitanServerCommonLib.initDB();
 			}
 			System.exit(0);
 		}
 
 		if (cmd.hasOption("sample_setting") || cmd.hasOption("s")) {
 			try {
-				IOUtils.copy(PandoraServer.class.getResourceAsStream("/hibernate.cfg.xml"), new FileOutputStream("hibernate.cfg.xml"));
+				IOUtils.copy(TitanServer.class.getResourceAsStream("/hibernate.cfg.xml"), new FileOutputStream("hibernate.cfg.xml"));
 
-				PandoraServerSetting setting = PandoraServerSetting.getInstance();
+				TitanServerSetting setting = TitanServerSetting.getInstance();
 				try {
 					setting.id = InetAddress.getLocalHost().getHostName();
 				} catch (Exception ex) {
@@ -86,16 +86,16 @@ public class PandoraServer {
 				setting.ec2AdminURL = "http://localhost:8773/services/Admin/";
 				setting.keystoneAdminURL = "http://localhost:35357/v2.0/";
 
-				setting.pandoraServers.clear();
-				PandoraServerDefinition pandoraServerDefinition = new PandoraServerDefinition();
-				pandoraServerDefinition.id = "sample pandora server 1";
-				pandoraServerDefinition.ip = "192.168.0.2";
-				setting.pandoraServers.add(pandoraServerDefinition);
+				setting.titanServers.clear();
+				TitanServerDefinition titanServerDefinition = new TitanServerDefinition();
+				titanServerDefinition.id = "sample titan server 1";
+				titanServerDefinition.ip = "192.168.0.2";
+				setting.titanServers.add(titanServerDefinition);
 
-				pandoraServerDefinition = new PandoraServerDefinition();
-				pandoraServerDefinition.id = "sample pandora server 2";
-				pandoraServerDefinition.ip = "192.168.0.3";
-				setting.pandoraServers.add(pandoraServerDefinition);
+				titanServerDefinition = new TitanServerDefinition();
+				titanServerDefinition.id = "sample titan server 2";
+				titanServerDefinition.ip = "192.168.0.3";
+				setting.titanServers.add(titanServerDefinition);
 
 				setting.novaCommands.clear();
 				setting.novaCommands.put("nova endpoints", "curl -s " + setting.keystoneAdminURL + "/tokens " + " -X POST " + " -H \"Content-Type: application/json\" "
@@ -221,7 +221,7 @@ public class PandoraServer {
 				setting.novaCommands.put("keystone endpoint-list", "curl -s " + setting.keystoneAdminURL + "/endpoints " + " -X GET " + " -H \"Accept: application/json\" "
 						+ " -H \"X-Auth-Token: $Token\" ");
 
-				System.out.println("Created pandora-server.xml");
+				System.out.println("Created titan-server.xml");
 				setting.save();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -229,8 +229,8 @@ public class PandoraServer {
 			System.exit(0);
 		}
 
-		if (PandoraServerCommonLib.isUserTableEmpty()) {
-			PandoraServerCommonLib.initDB();
+		if (TitanServerCommonLib.isUserTableEmpty()) {
+			TitanServerCommonLib.initDB();
 		}
 
 		testSigar();
@@ -239,7 +239,7 @@ public class PandoraServer {
 			new MainFrame().setVisible(true);
 		}
 
-		new PandoraServer();
+		new TitanServer();
 	}
 
 	private static void testSigar() {
@@ -255,7 +255,7 @@ public class PandoraServer {
 		}
 	}
 
-	public PandoraServer() {
+	public TitanServer() {
 		new Thread() {
 			public void run() {
 				commandServer();
@@ -271,7 +271,7 @@ public class PandoraServer {
 	private void commandServer() {
 		try {
 			serverSocket = new ServerSocket(4444);
-			logger.info("Pandora server started at port 4444");
+			logger.info("Titan server started at port 4444");
 			while (!isStopped) {
 				Socket clientSocket = null;
 				clientSocket = serverSocket.accept();

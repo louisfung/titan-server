@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.io.Serializable;
 import java.util.Date;

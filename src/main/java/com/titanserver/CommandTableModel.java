@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class CommandTableModel extends DefaultTableModel {
 	}
 
 	public int getRowCount() {
-		return PandoraServerSetting.getInstance().novaCommands.size() + 4;
+		return TitanServerSetting.getInstance().novaCommands.size() + 4;
 	}
 
 	public void setValueAt(Object aValue, int row, int column) {
@@ -34,28 +34,28 @@ public class CommandTableModel extends DefaultTableModel {
 			if (column == 0) {
 				return "Os username";
 			} else {
-				return PandoraServerSetting.getInstance().novaOsUsername;
+				return TitanServerSetting.getInstance().novaOsUsername;
 			}
 		} else if (row == 1) {
 			if (column == 0) {
 				return "Os password";
 			} else {
-				return PandoraServerSetting.getInstance().novaOsPassword;
+				return TitanServerSetting.getInstance().novaOsPassword;
 			}
 		} else if (row == 2) {
 			if (column == 0) {
 				return "Os tenant name";
 			} else {
-				return PandoraServerSetting.getInstance().novaOsTenantName;
+				return TitanServerSetting.getInstance().novaOsTenantName;
 			}
 		} else if (row == 3) {
 			if (column == 0) {
 				return "Os auth url";
 			} else {
-				return PandoraServerSetting.getInstance().novaOsAuthUrl;
+				return TitanServerSetting.getInstance().novaOsAuthUrl;
 			}
 		} else {
-			Map<String, String> novaCommands = PandoraServerSetting.getInstance().novaCommands;
+			Map<String, String> novaCommands = TitanServerSetting.getInstance().novaCommands;
 			Object keys[] = novaCommands.keySet().toArray();
 			if (column == 0) {
 				return keys[row - 4];

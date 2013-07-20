@@ -1,4 +1,4 @@
-package com.c2.pandoraserver.proxyserver;
+package com.titanserver.proxyserver;
 
 import java.io.IOException;
 import java.io.InputStream;

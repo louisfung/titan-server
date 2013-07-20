@@ -1,8 +1,8 @@
-package com.c2.pandoraserver.structure;
+package com.titanserver.structure;
 
 import java.io.Serializable;
 
-public class PandoraServerDefinition implements Serializable {
+public class TitanServerDefinition implements Serializable {
 	public String id;
 	public String ip;
 

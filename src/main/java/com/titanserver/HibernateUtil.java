@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.io.File;
 import java.util.Iterator;
@@ -33,7 +33,7 @@ public class HibernateUtil {
 
 			Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(new SubTypesScanner(false /* don't exclude Object.class */), new ResourcesScanner())
 					.setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
-					.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("com.c2.pandoraserver.table"))));
+					.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("com.titanserver.table"))));
 			Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 			Iterator<Class<?>> iterator = classes.iterator();
 			while (iterator.hasNext()) {

@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,14 +11,14 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hyperic.sigar.Sigar;
 
-import com.c2.pandoraserver.table.Status;
+import com.titanserver.table.Status;
 
 public class AgentSocketThread implements Runnable {
 	private String name;
 	private Socket socket;
 	private BufferedReader in = null;
 	private PrintStream out = null;
-	private static Logger logger = Logger.getLogger(PandoraServerCommonLib.class);
+	private static Logger logger = Logger.getLogger(TitanServerCommonLib.class);
 	private Sigar sigar = new Sigar();
 
 	public AgentSocketThread(Socket socket, String name) {

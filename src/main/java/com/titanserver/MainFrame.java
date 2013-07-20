@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -16,10 +16,10 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-import com.c2.pandoraserver.openstack_communication.OpenstackComm;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
 import com.peterswing.advancedswing.jtable.SortableTableModel;
 import com.peterswing.advancedswing.jtable.TableSorterColumnListener;
+import com.titanserver.openstack_communication.OpenstackComm;
 
 public class MainFrame extends JFrame {
 	private JPanel contentPane;
@@ -28,14 +28,14 @@ public class MainFrame extends JFrame {
 	TableSorterColumnListener tableSorterColumnListener2;
 
 	private JTable commandTable;
-	private JTable pandoraTable;
-	PandoraCommandTableModel pandoraTableModel = new PandoraCommandTableModel();
-	SortableTableModel sortableTableModel = new SortableTableModel(pandoraTableModel);
+	private JTable titanTable;
+	TitanCommandTableModel titanTableModel = new TitanCommandTableModel();
+	SortableTableModel sortableTableModel = new SortableTableModel(titanTableModel);
 	TableSorterColumnListener tableSorterColumnListener;
 	private JTable clientTable;
 
 	public MainFrame() {
-		setTitle("Pandora server " + Global.version);
+		setTitle("Titan server " + Global.version);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 514);
 		contentPane = new JPanel();
@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		EnhancedTextArea enhancedTextArea = new EnhancedTextArea();
-		enhancedTextArea.addTrailListener(new File("pandora-server.log"), 300, true);
+		enhancedTextArea.addTrailListener(new File("titan-server.log"), 300, true);
 		panel.add(enhancedTextArea);
 
 		JPanel panelTest = new JPanel();
@@ -95,31 +95,31 @@ public class MainFrame extends JFrame {
 		panel_1.add(btnRun);
 
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Pandora command test", null, panel_2, null);
+		tabbedPane.addTab("Titan command test", null, panel_2, null);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_2.add(scrollPane_1, BorderLayout.CENTER);
 
-		pandoraTable = new JTable();
-		pandoraTable.addMouseListener(new MouseAdapter() {
+		titanTable = new JTable();
+		titanTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					runPandoraCommand();
+					runTitanCommand();
 				}
 			}
 		});
-		pandoraTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tableSorterColumnListener = new TableSorterColumnListener(pandoraTable, sortableTableModel);
-		pandoraTable.getTableHeader().setReorderingAllowed(false);
-		pandoraTable.setModel(sortableTableModel);
-		pandoraTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		pandoraTable.getTableHeader().addMouseListener(tableSorterColumnListener);
-		pandoraTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		pandoraTable.getColumnModel().getColumn(0).setPreferredWidth(350);
+		titanTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableSorterColumnListener = new TableSorterColumnListener(titanTable, sortableTableModel);
+		titanTable.getTableHeader().setReorderingAllowed(false);
+		titanTable.setModel(sortableTableModel);
+		titanTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		titanTable.getTableHeader().addMouseListener(tableSorterColumnListener);
+		titanTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		titanTable.getColumnModel().getColumn(0).setPreferredWidth(350);
 
-		scrollPane_1.setViewportView(pandoraTable);
+		scrollPane_1.setViewportView(titanTable);
 
 		JPanel panel_3 = new JPanel();
 		tabbedPane.addTab("Client", null, panel_3, null);
@@ -145,11 +145,11 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	void runPandoraCommand() {
-		int row = pandoraTable.getSelectedRow();
-		RunPandoraCommandDialog r = new RunPandoraCommandDialog(this);
-		r.setTitle((String) pandoraTable.getValueAt(row, 0));
-		r.textArea.setText((String) pandoraTable.getValueAt(row, 0));
+	void runTitanCommand() {
+		int row = titanTable.getSelectedRow();
+		RunTitanCommandDialog r = new RunTitanCommandDialog(this);
+		r.setTitle((String) titanTable.getValueAt(row, 0));
+		r.textArea.setText((String) titanTable.getValueAt(row, 0));
 		r.setVisible(true);
 	}
 }

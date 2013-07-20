@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,19 +22,19 @@ import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.Tcp;
 
-import com.c2.pandoraserver.openstack_communication.OpenstackComm;
-import com.c2.pandoraserver.table.InstancePermission;
-import com.c2.pandoraserver.table.InstancePermissionGroup;
-import com.c2.pandoraserver.table.ScreenPermission;
-import com.c2.pandoraserver.table.ScreenPermissionGroup;
-import com.c2.pandoraserver.table.User;
+import com.titanserver.openstack_communication.OpenstackComm;
+import com.titanserver.table.InstancePermission;
+import com.titanserver.table.InstancePermissionGroup;
+import com.titanserver.table.ScreenPermission;
+import com.titanserver.table.ScreenPermissionGroup;
+import com.titanserver.table.User;
 
 public class SocketThread implements Runnable {
 	private String name;
 	private Socket socket;
 	private ObjectInputStream in = null;
 	private ObjectOutputStream out = null;
-	private static Logger logger = Logger.getLogger(PandoraServerCommonLib.class);
+	private static Logger logger = Logger.getLogger(TitanServerCommonLib.class);
 	private Sigar sigar = new Sigar();
 
 	public SocketThread(Socket socket, String name) {
@@ -96,8 +96,8 @@ public class SocketThread implements Runnable {
 
 					r.map.put("os", System.getProperty("os.name"));
 				} else if (command.command.equals("getID")) {
-					r.message = PandoraServerSetting.getInstance().id;
-				} else if (command.command.equals("getPandoraServerInfo")) {
+					r.message = TitanServerSetting.getInstance().id;
+				} else if (command.command.equals("getTitanServerInfo")) {
 					r.map.put("cpu", sigar.getCpu());
 					r.map.put("cpuInfoList", sigar.getCpuInfoList());
 					r.map.put("cpuPerc", sigar.getCpuPerc());
@@ -108,7 +108,7 @@ public class SocketThread implements Runnable {
 					r.map.put("nativeLibrary", sigar.getNativeLibrary());
 					r.map.put("netInfo", sigar.getNetInfo());
 					r.map.put("netInterfaceConfig", sigar.getNetInterfaceConfig());
-				} else if (command.command.startsWith("from pandora:")) {
+				} else if (command.command.startsWith("from titan:")) {
 					ParameterTableModel parameterTableModel = new ParameterTableModel();
 					if (command.parameters.size() > 0) {
 						HashMap<String, Object> parameters = (HashMap<String, Object>) command.parameters.get(0);
@@ -189,7 +189,7 @@ public class SocketThread implements Runnable {
 					streamToClient.close();
 				} else if (command.command.equals("get vnc port")) {
 					String instanceName = (String) command.parameters.get(0);
-					String result = PandoraServerCommonLib.runCommand("ps aux", 0);
+					String result = TitanServerCommonLib.runCommand("ps aux", 0);
 					boolean bingo = false;
 					for (String s : result.split("\n")) {
 						if (s.contains("-name " + instanceName)) {
@@ -208,7 +208,7 @@ public class SocketThread implements Runnable {
 					HashMap<String, String> map = (HashMap<String, String>) command.parameters.get(0);
 					String instanceName = map.get("instanceName");
 					String commandStr = map.get("commandStr");
-					String result = PandoraServerCommonLib.runCommand("virsh qemu-monitor-command --hmp " + instanceName + " " + commandStr, 0);
+					String result = TitanServerCommonLib.runCommand("virsh qemu-monitor-command --hmp " + instanceName + " " + commandStr, 0);
 					System.out.println("/usr/bin/virsh qemu-monitor-command --hmp " + instanceName + " '" + commandStr + "'");
 					System.out.println(result);
 					r.map.put("result", result);

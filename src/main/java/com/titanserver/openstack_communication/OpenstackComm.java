@@ -1,4 +1,4 @@
-package com.c2.pandoraserver.openstack_communication;
+package com.titanserver.openstack_communication;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,18 +23,16 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 
-import com.c2.pandoraserver.PandoraServerCommonLib;
-import com.c2.pandoraserver.PandoraServerSetting;
-import com.c2.pandoraserver.ParameterTableModel;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
+import com.titanserver.ParameterTableModel;
+import com.titanserver.TitanServerCommonLib;
+import com.titanserver.TitanServerSetting;
 
 public class OpenstackComm {
 
-	private static Logger logger = Logger.getLogger(PandoraServerCommonLib.class);
+	private static Logger logger = Logger.getLogger(TitanServerCommonLib.class);
 
 	static String url = "http://127.0.0.1:35357/v2.0/tokens";
-	//static String url = "http://127.0.0.1:8774/v2/b721f5b1f7cd43dd83ee573f6d4e6c74/os-cloudpipe";
-	//static String tenantId = "b721f5b1f7cd43dd83ee573f6d4e6c74";
 	static String tenantId;
 
 	public static String tenantID;
@@ -42,21 +40,6 @@ public class OpenstackComm {
 
 	public static void main(String args[]) {
 		initToken();
-
-		/*
-		HashMap<String, String> headers = new HashMap<String, String>();
-		headers.put("Content-Type", "application/json");
-		//		System.out.println(send(url, headers, "{\"auth\": {\"tenantName\": \"admin\", \"passwordCredentials\": {\"username\": \"admin\", \"password\": \"123456\"}}}"));
-		//		headers.put("X-Auth-Project-Id", PandoraServerSetting.getInstance().novaOsTenantName);
-		headers.put("Accept", "application/json");
-		headers.put(
-				"X-Auth-Token",
-				"MIIKjQYJKoZIhvcNAQcCoIIKfjCCCnoCAQExCTAHBgUrDgMCGjCCCWYGCSqGSIb3DQEHAaCCCVcEgglTeyJhY2Nlc3MiOiB7InRva2VuIjogeyJpc3N1ZWRfYXQiOiAiMjAxMy0wNS0wOFQwMjowMzo0Ni4wMDI4MzAiLCAiZXhwaXJlcyI6ICIyMDEzLTA1LTA5VDAyOjAzOjQ1WiIsICJpZCI6ICJwbGFjZWhvbGRlciIsICJ0ZW5hbnQiOiB7ImRlc2NyaXB0aW9uIjogbnVsbCwgImVuYWJsZWQiOiB0cnVlLCAiaWQiOiAiYjcyMWY1YjFmN2NkNDNkZDgzZWU1NzNmNmQ0ZTZjNzQiLCAibmFtZSI6ICJhZG1pbiJ9fSwgInNlcnZpY2VDYXRhbG9nIjogW3siZW5kcG9pbnRzIjogW3siYWRtaW5VUkwiOiAiaHR0cDovLzE5Mi4xNjguMTAwLjE3MDo4Nzc0L3YyL2I3MjFmNWIxZjdjZDQzZGQ4M2VlNTczZjZkNGU2Yzc0IiwgInJlZ2lvbiI6ICJSZWdpb25PbmUiLCAiaW50ZXJuYWxVUkwiOiAiaHR0cDovLzE5Mi4xNjguMTAwLjE3MDo4Nzc0L3YyL2I3MjFmNWIxZjdjZDQzZGQ4M2VlNTczZjZkNGU2Yzc0IiwgImlkIjogIjNmNWMxYjhiOTM5YjQ2OWM4MWUwMmQ4MmFmMjQ1NDM3IiwgInB1YmxpY1VSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjg3NzQvdjIvYjcyMWY1YjFmN2NkNDNkZDgzZWU1NzNmNmQ0ZTZjNzQifV0sICJlbmRwb2ludHNfbGlua3MiOiBbXSwgInR5cGUiOiAiY29tcHV0ZSIsICJuYW1lIjogIm5vdmEifSwgeyJlbmRwb2ludHMiOiBbeyJhZG1pblVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjMzMzMiLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjMzMzMiLCAiaWQiOiAiOTlhYWRkMTU5Zjg5NGZkZjljYjUxYzU4MzU3NWI3MjYiLCAicHVibGljVVJMIjogImh0dHA6Ly8xOTIuMTY4LjEwMC4xNzA6MzMzMyJ9XSwgImVuZHBvaW50c19saW5rcyI6IFtdLCAidHlwZSI6ICJzMyIsICJuYW1lIjogInMzIn0sIHsiZW5kcG9pbnRzIjogW3siYWRtaW5VUkwiOiAiaHR0cDovLzE5Mi4xNjguMTAwLjE3MDo5MjkyIiwgInJlZ2lvbiI6ICJSZWdpb25PbmUiLCAiaW50ZXJuYWxVUkwiOiAiaHR0cDovLzE5Mi4xNjguMTAwLjE3MDo5MjkyIiwgImlkIjogIjg1NWRiYmE1MTNiYzQzZTRiZTk0ZjY4ZTI0OTk2MTA3IiwgInB1YmxpY1VSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjkyOTIifV0sICJlbmRwb2ludHNfbGlua3MiOiBbXSwgInR5cGUiOiAiaW1hZ2UiLCAibmFtZSI6ICJnbGFuY2UifSwgeyJlbmRwb2ludHMiOiBbeyJhZG1pblVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjg3NzYvdjEvYjcyMWY1YjFmN2NkNDNkZDgzZWU1NzNmNmQ0ZTZjNzQiLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjg3NzYvdjEvYjcyMWY1YjFmN2NkNDNkZDgzZWU1NzNmNmQ0ZTZjNzQiLCAiaWQiOiAiM2Q5Y2UwZGM3MzliNGVjYTk5YmM5NTA1ZGMxYzk3YWMiLCAicHVibGljVVJMIjogImh0dHA6Ly8xOTIuMTY4LjEwMC4xNzA6ODc3Ni92MS9iNzIxZjViMWY3Y2Q0M2RkODNlZTU3M2Y2ZDRlNmM3NCJ9XSwgImVuZHBvaW50c19saW5rcyI6IFtdLCAidHlwZSI6ICJ2b2x1bWUiLCAibmFtZSI6ICJjaW5kZXIifSwgeyJlbmRwb2ludHMiOiBbeyJhZG1pblVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjg3NzMvc2VydmljZXMvQWRtaW4iLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjg3NzMvc2VydmljZXMvQ2xvdWQiLCAiaWQiOiAiMzYwZWFkYTUxNDk0NDg4ZDlmNDdlNzVkYTAxMTU2MzgiLCAicHVibGljVVJMIjogImh0dHA6Ly8xOTIuMTY4LjEwMC4xNzA6ODc3My9zZXJ2aWNlcy9DbG91ZCJ9XSwgImVuZHBvaW50c19saW5rcyI6IFtdLCAidHlwZSI6ICJlYzIiLCAibmFtZSI6ICJlYzIifSwgeyJlbmRwb2ludHMiOiBbeyJhZG1pblVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjM1MzU3L3YyLjAiLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC4xMDAuMTcwOjUwMDAvdjIuMCIsICJpZCI6ICJiYjM4MWNiOGU3ZTM0MmJmYjQ5MmY0OGM3YmU0MmUwYiIsICJwdWJsaWNVUkwiOiAiaHR0cDovLzE5Mi4xNjguMTAwLjE3MDo1MDAwL3YyLjAifV0sICJlbmRwb2ludHNfbGlua3MiOiBbXSwgInR5cGUiOiAiaWRlbnRpdHkiLCAibmFtZSI6ICJrZXlzdG9uZSJ9XSwgInVzZXIiOiB7InVzZXJuYW1lIjogImFkbWluIiwgInJvbGVzX2xpbmtzIjogW10sICJpZCI6ICI5YTFmOGMxMTRlMmY0NGY4YTVlNDg4OTk5N2YyY2FjMSIsICJyb2xlcyI6IFt7Im5hbWUiOiAiYWRtaW4ifV0sICJuYW1lIjogImFkbWluIn0sICJtZXRhZGF0YSI6IHsiaXNfYWRtaW4iOiAwLCAicm9sZXMiOiBbIjMwYWQ1NTUzOGMxZDQwNWY5NWUzNTRjMjY1MTU2NTEwIl19fX0xgf8wgfwCAQEwXDBXMQswCQYDVQQGEwJVUzEOMAwGA1UECBMFVW5zZXQxDjAMBgNVBAcTBVVuc2V0MQ4wDAYDVQQKEwVVbnNldDEYMBYGA1UEAxMPd3d3LmV4YW1wbGUuY29tAgEBMAcGBSsOAwIaMA0GCSqGSIb3DQEBAQUABIGAgUZkE4kxPKZuClaI5gVOCfuhxAEt66Bz4k2QAUc0qUoYOdRriHwUtjUqpMOPeNxzD2Nz2Iv54j0v52I2N55QNvEIjvkalElgPv7MW4ya4M6+5ZswvZ87wAzR9mQ9zf2oGSVQf+n5H-CitOqJp6jmjKTCpaZLIXxQU+L35d7w1Hs=");
-		//		System.out.println(get(url, headers));
-
-		System.out.println(post(url, headers, "{\"auth\": {\"tenantName\": \"admin\", \"passwordCredentials\": {\"username\": \"admin\", \"password\": \"123456\"}}}"));
-		//		System.out.println(send(url, headers, "{}"));
-		 */
 	}
 
 	public static String post(String url, HashMap<String, String> headers, String entity, boolean checkToken) {
@@ -174,12 +157,12 @@ public class OpenstackComm {
 	}
 
 	private static void initToken() {
-		String url = PandoraServerSetting.getInstance().novaOsService_endpoint + "/tokens";
+		String url = TitanServerSetting.getInstance().novaOsService_endpoint + "/tokens";
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
 		headers.put("Accept", "application/json");
-		String result = post(url, headers, "{\"auth\": {\"tenantName\": \"admin\", \"passwordCredentials\": {\"username\": \"" + PandoraServerSetting.getInstance().novaOsUsername
-				+ "\", \"password\": \"" + PandoraServerSetting.getInstance().novaOsPassword + "\"}}}", false);
+		String result = post(url, headers, "{\"auth\": {\"tenantName\": \"admin\", \"passwordCredentials\": {\"username\": \"" + TitanServerSetting.getInstance().novaOsUsername
+				+ "\", \"password\": \"" + TitanServerSetting.getInstance().novaOsPassword + "\"}}}", false);
 
 		JSONObject json = JSONObject.fromObject(result);
 		token = json.getJSONObject("access").getJSONObject("token").getString("id");
@@ -300,11 +283,11 @@ public class OpenstackComm {
 	}
 
 	private static String initCommand(String command) {
-		if (command.startsWith("from pandora:")) {
-			command = command.substring("from pandora:".length()).trim();
-			for (String key : PandoraServerSetting.getInstance().novaCommands.keySet()) {
+		if (command.startsWith("from titan:")) {
+			command = command.substring("from titan:".length()).trim();
+			for (String key : TitanServerSetting.getInstance().novaCommands.keySet()) {
 				if (command.equals(key)) {
-					command = PandoraServerSetting.getInstance().novaCommands.get(key);
+					command = TitanServerSetting.getInstance().novaCommands.get(key);
 					return command;
 				}
 			}
@@ -371,11 +354,11 @@ public class OpenstackComm {
 				if (!parameterTableModel.parameters.contains(groupStr)) {
 					parameterTableModel.parameters.add(groupStr);
 					if (groupStr.equals("$Tenant_name")) {
-						parameterTableModel.values.add(PandoraServerSetting.getInstance().novaOsTenantName);
+						parameterTableModel.values.add(TitanServerSetting.getInstance().novaOsTenantName);
 					} else if (groupStr.equals("$Username")) {
-						parameterTableModel.values.add(PandoraServerSetting.getInstance().novaOsUsername);
+						parameterTableModel.values.add(TitanServerSetting.getInstance().novaOsUsername);
 					} else if (groupStr.equals("$Password")) {
-						parameterTableModel.values.add(PandoraServerSetting.getInstance().novaOsPassword);
+						parameterTableModel.values.add(TitanServerSetting.getInstance().novaOsPassword);
 					} else if (groupStr.equals("$Token")) {
 						parameterTableModel.values.add(token);
 					} else if (groupStr.equals("$Tenant_Id")) {

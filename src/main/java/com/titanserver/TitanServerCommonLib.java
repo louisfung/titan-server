@@ -1,12 +1,10 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -15,15 +13,15 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.c2.pandoraserver.openstack_communication.OpenstackComm;
-import com.c2.pandoraserver.table.InstancePermission;
-import com.c2.pandoraserver.table.InstancePermissionGroup;
-import com.c2.pandoraserver.table.ScreenPermission;
-import com.c2.pandoraserver.table.ScreenPermissionGroup;
-import com.c2.pandoraserver.table.User;
+import com.titanserver.openstack_communication.OpenstackComm;
+import com.titanserver.table.InstancePermission;
+import com.titanserver.table.InstancePermissionGroup;
+import com.titanserver.table.ScreenPermission;
+import com.titanserver.table.ScreenPermissionGroup;
+import com.titanserver.table.User;
 
-public class PandoraServerCommonLib {
-	private static Logger logger = Logger.getLogger(PandoraServerCommonLib.class);
+public class TitanServerCommonLib {
+	private static Logger logger = Logger.getLogger(TitanServerCommonLib.class);
 
 	public static void initDB() {
 		logger.info("initDB()");
@@ -254,7 +252,7 @@ public class PandoraServerCommonLib {
 
 	public static String getTenantId(String tenantName) {
 		Command command = new Command();
-		command.command = "from pandora: keystone tenant-list";
+		command.command = "from titan: keystone tenant-list";
 		ReturnCommand r = execute(command);
 
 		String msg = (String) r.map.get("result");

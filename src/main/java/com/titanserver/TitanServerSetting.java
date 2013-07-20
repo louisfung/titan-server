@@ -1,4 +1,4 @@
-package com.c2.pandoraserver;
+package com.titanserver;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,13 +8,13 @@ import java.util.Vector;
 
 import org.apache.commons.io.IOUtils;
 
-import com.c2.pandoraserver.structure.PandoraServerDefinition;
 import com.thoughtworks.xstream.XStream;
+import com.titanserver.structure.TitanServerDefinition;
 
-public class PandoraServerSetting {
-	private static PandoraServerSetting setting = null;
+public class TitanServerSetting {
+	private static TitanServerSetting setting = null;
 	public String id;
-	public Vector<PandoraServerDefinition> pandoraServers = new Vector<PandoraServerDefinition>();
+	public Vector<TitanServerDefinition> titanServers = new Vector<TitanServerDefinition>();
 	//	public String novaOsServiceToken;
 	public String novaOsUsername;
 	public String novaOsPassword;
@@ -32,7 +32,7 @@ public class PandoraServerSetting {
 	//	public String novaOsService_endpoint;
 	public HashMap<String, String> novaCommands = new HashMap<String, String>();
 
-	public static PandoraServerSetting getInstance() {
+	public static TitanServerSetting getInstance() {
 		if (setting == null) {
 			setting = load();
 		}
@@ -41,31 +41,31 @@ public class PandoraServerSetting {
 
 	public void save() {
 		XStream xstream = new XStream();
-		xstream.alias("pandoraServer", PandoraServerDefinition.class);
+		xstream.alias("titanServer", TitanServerDefinition.class);
 		String xml = xstream.toXML(this);
 		try {
-			IOUtils.write(xml, new FileOutputStream(new File("pandora-server.xml")));
+			IOUtils.write(xml, new FileOutputStream(new File("titan-server.xml")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static PandoraServerSetting load() {
+	public static TitanServerSetting load() {
 		try {
 			XStream xstream = new XStream();
-			xstream.alias("pandoraServer", PandoraServerDefinition.class);
-			PandoraServerSetting setting = (PandoraServerSetting) xstream.fromXML(new FileInputStream(new File("pandora-server.xml")));
+			xstream.alias("titanServer", TitanServerDefinition.class);
+			TitanServerSetting setting = (TitanServerSetting) xstream.fromXML(new FileInputStream(new File("titan-server.xml")));
 			return setting;
 		} catch (Exception ex) {
-			//JOptionPane.showMessageDialog(null, "Loading pandora-server.xml error.", "Error", JOptionPane.ERROR_MESSAGE);
-			new File("pandora-server.xml").delete();
-			PandoraServerSetting pandoraServerSetting = new PandoraServerSetting();
-			pandoraServerSetting.save();
-			return pandoraServerSetting;
+			//JOptionPane.showMessageDialog(null, "Loading titan-server.xml error.", "Error", JOptionPane.ERROR_MESSAGE);
+			new File("titan-server.xml").delete();
+			TitanServerSetting titanServerSetting = new TitanServerSetting();
+			titanServerSetting.save();
+			return titanServerSetting;
 		}
 	}
 
 	public static void main(String args[]) {
-		System.out.println(PandoraServerSetting.getInstance().novaOsService_endpoint);
+		System.out.println(TitanServerSetting.getInstance().novaOsService_endpoint);
 	}
 }
