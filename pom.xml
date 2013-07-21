@@ -85,6 +85,21 @@
 			<artifactId>commons-cli</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jscsi</groupId>
+			<artifactId>initiator</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jscsi</groupId>
+			<artifactId>target</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jscsi</groupId>
+			<artifactId>commons</artifactId>
+			<version>2.5</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>titan-server${project.version}</finalName>
