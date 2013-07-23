@@ -220,6 +220,9 @@ public class TitanServer {
 
 				setting.novaCommands.put("keystone endpoint-list", "curl -s " + setting.keystoneAdminURL + "/endpoints " + " -X GET " + " -H \"Accept: application/json\" "
 						+ " -H \"X-Auth-Token: $Token\" ");
+				
+				setting.novaCommands.put("cinder list", "curl -s " + setting.cinderAdminURL + "/$Tenant_Id/volumes/detail " + " -X GET " + " -H \"Accept: application/json\" "
+						+ " -H \"X-Auth-Token: $Token\" ");
 
 				System.out.println("Created titan-server.xml");
 				setting.save();
