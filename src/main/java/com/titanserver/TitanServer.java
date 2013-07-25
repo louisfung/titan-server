@@ -220,9 +220,31 @@ public class TitanServer {
 
 				setting.novaCommands.put("keystone endpoint-list", "curl -s " + setting.keystoneAdminURL + "/endpoints " + " -X GET " + " -H \"Accept: application/json\" "
 						+ " -H \"X-Auth-Token: $Token\" ");
-				
+
 				setting.novaCommands.put("cinder list", "curl -s " + setting.cinderAdminURL + "/$Tenant_Id/volumes/detail " + " -X GET " + " -H \"Accept: application/json\" "
 						+ " -H \"X-Auth-Token: $Token\" ");
+
+				setting.novaCommands
+						.put("cinder create",
+								"curl -s "
+										+ setting.cinderAdminURL
+										+ "/$Tenant_Id/volumes "
+										+ " -X POST "
+										+ " -H \"X-Auth-Token: $Token\" "
+										+ " -H \"Content-Type: application/json\" "
+										+ " -d '{\"volume\": {\"status\": \"creating\", \"availability_zone\": null, \"source_volid\": null, \"display_description\": \"$displayDescription\", \"snapshot_id\": null, \"user_id\": null, \"size\": $size, \"display_name\": \"$displayName\", \"imageRef\": null, \"attach_status\": \"detached\", \"volume_type\": \"$volumeType\", \"project_id\": null, \"metadata\": {}}}'");
+
+				setting.novaCommands.put("cinder delete", "curl -s " + setting.cinderAdminURL + "/$Tenant_Id/volumes/$volumeId " + " -X DELETE "
+						+ " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
+
+				setting.novaCommands.put("cinder type-list", "curl -s " + setting.cinderAdminURL + "/$Tenant_Id/types " + " -X GET " + " -H \"Accept: application/json\" "
+						+ " -H \"X-Auth-Token: $Token\" ");
+
+				setting.novaCommands.put("cinder type-create", "curl -s " + setting.cinderAdminURL + "/$Tenant_Id/types " + " -X POST " + " -H \"X-Auth-Token: $Token\" "
+						+ " -H \"Content-Type: application/json\" " + " -d '{\"volume_type\": {\"name\": \"$name\"}}'");
+
+				setting.novaCommands.put("cinder type-delete", "curl -s " + setting.cinderAdminURL + "/$Tenant_Id/types/$volumeTypeId " + " -X DELETE "
+						+ " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
 
 				System.out.println("Created titan-server.xml");
 				setting.save();
