@@ -28,7 +28,7 @@ import com.titanserver.table.User;
 public class RunTitanCommandDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private EnhancedTextArea enhancedTextArea;
+	private JTextArea JTextArea;
 	ParameterTableModel parameterTableModel = new ParameterTableModel();
 	JTextArea textArea;
 
@@ -52,8 +52,8 @@ public class RunTitanCommandDialog extends JDialog {
 				}
 			}
 			{
-				enhancedTextArea = new EnhancedTextArea();
-				splitPane.setRightComponent(enhancedTextArea);
+				JTextArea = new JTextArea();
+				splitPane.setRightComponent(JTextArea);
 			}
 		}
 		{
@@ -68,31 +68,31 @@ public class RunTitanCommandDialog extends JDialog {
 							Session session = HibernateUtil.openSession();
 							Query query = session.createQuery("from ScreenPermission");
 							List<ScreenPermission> list = query.list();
-							enhancedTextArea.setText(listToString(list));
+							JTextArea.setText(listToString(list));
 							session.close();
 						} else if (textArea.getText().equals("get instance permissions")) {
 							Session session = HibernateUtil.openSession();
 							Query query = session.createQuery("from InstancePermission");
 							List<InstancePermission> list = query.list();
-							enhancedTextArea.setText(listToString(list));
+							JTextArea.setText(listToString(list));
 							session.close();
 						} else if (textArea.getText().equals("get users")) {
 							Session session = HibernateUtil.openSession();
 							Query query = session.createQuery("from User");
 							List<User> list = query.list();
-							enhancedTextArea.setText(listToString(list));
+							JTextArea.setText(listToString(list));
 							session.close();
 						} else if (textArea.getText().equals("get screen permission groups")) {
 							Session session = HibernateUtil.openSession();
 							Query query = session.createQuery("from ScreenPermissionGroup");
 							List<ScreenPermissionGroup> list = query.list();
-							enhancedTextArea.setText(listToString(list));
+							JTextArea.setText(listToString(list));
 							session.close();
 						} else if (textArea.getText().equals("get instance permission groups")) {
 							Session session = HibernateUtil.openSession();
 							Query query = session.createQuery("from InstancePermissionGroup");
 							List<InstancePermissionGroup> list = query.list();
-							enhancedTextArea.setText(listToString(list));
+							JTextArea.setText(listToString(list));
 							session.close();
 						}
 					}
