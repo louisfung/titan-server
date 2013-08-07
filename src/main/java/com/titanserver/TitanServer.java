@@ -326,6 +326,7 @@ public class TitanServer {
 				return;
 			}
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 

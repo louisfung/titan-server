@@ -6,20 +6,27 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.peterswing.CommonLib;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
 import com.peterswing.advancedswing.jtable.SortableTableModel;
 import com.peterswing.advancedswing.jtable.TableSorterColumnListener;
 import com.titanserver.openstack_communication.OpenstackComm;
+import java.awt.FlowLayout;
 
 public class MainFrame extends JFrame {
 	private JPanel contentPane;
@@ -131,7 +138,66 @@ public class MainFrame extends JFrame {
 		clientTable = new JTable();
 		scrollPane_2.setViewportView(clientTable);
 
+		JPanel statusPanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) statusPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		contentPane.add(statusPanel, BorderLayout.SOUTH);
+
+		testOpenstack(statusPanel);
+
 		setLocationRelativeTo(null);
+	}
+
+	private void testOpenstack(JPanel statusPanel) {
+		try {
+			URL url = new URL(TitanServerSetting.getInstance().keystoneAdminURL);
+			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
+				JLabel warningLabel = new JLabel("keystone is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
+				statusPanel.add(warningLabel);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			URL url = new URL(TitanServerSetting.getInstance().glanceAdminURL);
+			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
+				JLabel warningLabel = new JLabel("glance is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
+				statusPanel.add(warningLabel);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			URL url = new URL(TitanServerSetting.getInstance().novaAdminURL);
+			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
+				JLabel warningLabel = new JLabel("nova is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
+				statusPanel.add(warningLabel);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			URL url = new URL(TitanServerSetting.getInstance().s3AdminURL);
+			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
+				JLabel warningLabel = new JLabel("s3 is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
+				statusPanel.add(warningLabel);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			URL url = new URL(TitanServerSetting.getInstance().ec2AdminURL);
+			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
+				JLabel warningLabel = new JLabel("ec2 is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
+				statusPanel.add(warningLabel);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	void runCommand() {
