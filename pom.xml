@@ -100,6 +100,12 @@
 			<artifactId>commons</artifactId>
 			<version>2.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-maven-plugin</artifactId>
+			<version>4.1</version>
+			<type>maven-plugin</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>titan-server${project.version}</finalName>
@@ -136,6 +142,15 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.0</version>
+				<configuration>
+					<sourceDirectory>${basedir}/src/main/java/com/titanserver/engine</sourceDirectory>
+					<outputDirectory>${basedir}/src/main/java/com/titanserver/engine</outputDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
