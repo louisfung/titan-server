@@ -8,7 +8,7 @@
 		<dependency>
 			<groupId>com.peter</groupId>
 			<artifactId>peter-swing</artifactId>
-			<version>20130814</version>
+			<version>20131001</version>
 		</dependency>
 		<dependency>
 			<groupId>com.apple</groupId>
