@@ -1,5 +1,7 @@
 package com.titanserver;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -15,6 +17,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
@@ -64,6 +67,7 @@ public class TitanServer {
 		if (cmd.hasOption("sample_setting") || cmd.hasOption("s")) {
 			try {
 				IOUtils.copy(TitanServer.class.getResourceAsStream("/hibernate.cfg.xml"), new FileOutputStream("hibernate.cfg.xml"));
+				IOUtils.copy(TitanServer.class.getResourceAsStream("/log4j.properties"), new FileOutputStream("log4j.properties"));
 
 				TitanServerSetting setting = TitanServerSetting.getInstance();
 				try {
@@ -252,6 +256,13 @@ public class TitanServer {
 				e.printStackTrace();
 			}
 			System.exit(0);
+		}
+
+		try {
+			PropertyConfigurator.configure(new FileInputStream("log4j.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
 		}
 
 		if (TitanServerCommonLib.isUserTableEmpty()) {
