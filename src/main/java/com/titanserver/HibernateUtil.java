@@ -1,11 +1,13 @@
 package com.titanserver;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StatelessSession;
@@ -26,6 +28,7 @@ public class HibernateUtil {
 			if (!configFile.exists()) {
 				System.err.println(configFile.getName() + " not error, error");
 			}
+			System.out.println(IOUtils.toString(new FileInputStream(configFile)));
 			AnnotationConfiguration config = new AnnotationConfiguration().configure(configFile);
 			List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
 			classLoadersList.add(ClasspathHelper.contextClassLoader());
