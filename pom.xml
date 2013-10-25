@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.titanserver</groupId>
 	<artifactId>titan-server</artifactId>
-	<version>20130717</version>
+	<version>20131012</version>
 	<dependencies>
 		<dependency>
 			<groupId>com.peter</groupId>

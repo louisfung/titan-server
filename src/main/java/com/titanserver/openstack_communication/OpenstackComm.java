@@ -161,8 +161,8 @@ public class OpenstackComm {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
 		headers.put("Accept", "application/json");
-		String result = post(url, headers, "{\"auth\": {\"tenantName\": \"admin\", \"passwordCredentials\": {\"username\": \"" + TitanServerSetting.getInstance().novaOsUsername
-				+ "\", \"password\": \"" + TitanServerSetting.getInstance().novaOsPassword + "\"}}}", false);
+		String result = post(url, headers, "{\"auth\": {\"tenantName\": \"" + TitanServerSetting.getInstance().novaOsTenantName + "\", \"passwordCredentials\": {\"username\": \""
+				+ TitanServerSetting.getInstance().novaOsUsername + "\", \"password\": \"" + TitanServerSetting.getInstance().novaOsPassword + "\"}}}", false);
 
 		JSONObject json = JSONObject.fromObject(result);
 		token = json.getJSONObject("access").getJSONObject("token").getString("id");

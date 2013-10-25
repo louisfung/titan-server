@@ -172,6 +172,7 @@ public class MainFrame extends JFrame {
 		try {
 			URL url = new URL(TitanServerSetting.getInstance().novaAdminURL);
 			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+url.getHost()+"::"+url.getPort());
 				JLabel warningLabel = new JLabel("nova is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
 				statusPanel.add(warningLabel);
 			}
