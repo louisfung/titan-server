@@ -8,7 +8,7 @@
 		<!-- <property name="hibernate.bytecode.use_reflection_optimizer">false</property> -->
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/titan</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/titan</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.connection.username">titan</property>
 		<property name="hibernate.connection.password">titan</property>

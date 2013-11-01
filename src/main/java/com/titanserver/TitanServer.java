@@ -29,7 +29,7 @@ public class TitanServer {
 	private ServerSocket serverSocket;
 	private ServerSocket agentSocket;
 
-	private static Logger logger = Logger.getLogger(TitanServerCommonLib.class);
+	private static Logger logger = Logger.getLogger(TitanServer.class);
 
 	public static void main(String[] args) {
 		try {
