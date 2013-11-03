@@ -25,7 +25,7 @@ public class HibernateUtil {
 	private static SessionFactory buildSessionFactory() {
 		try {
 			File configFile = new File("hibernate.cfg.xml");
-			System.out.println("hibernate.cfg.xml path : "+configFile.getAbsolutePath());
+			System.out.println("hibernate.cfg.xml path : " + configFile.getAbsolutePath());
 			if (!configFile.exists()) {
 				System.err.println(configFile.getName() + " not error, error");
 			}

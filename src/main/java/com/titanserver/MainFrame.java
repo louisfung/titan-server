@@ -1,6 +1,7 @@
 package com.titanserver;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,12 +22,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.log4j.Logger;
+
 import com.peterswing.CommonLib;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
 import com.peterswing.advancedswing.jtable.SortableTableModel;
 import com.peterswing.advancedswing.jtable.TableSorterColumnListener;
 import com.titanserver.openstack_communication.OpenstackComm;
-import java.awt.FlowLayout;
 
 public class MainFrame extends JFrame {
 	private JPanel contentPane;
@@ -40,6 +42,8 @@ public class MainFrame extends JFrame {
 	SortableTableModel sortableTableModel = new SortableTableModel(titanTableModel);
 	TableSorterColumnListener tableSorterColumnListener;
 	private JTable clientTable;
+
+	private static Logger logger = Logger.getLogger(MainFrame.class);
 
 	public MainFrame() {
 		setTitle("Titan server " + Global.version);
@@ -150,6 +154,7 @@ public class MainFrame extends JFrame {
 
 	private void testOpenstack(JPanel statusPanel) {
 		try {
+			logger.info("testing keystone");
 			URL url = new URL(TitanServerSetting.getInstance().keystoneAdminURL);
 			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
 				JLabel warningLabel = new JLabel("keystone is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
@@ -160,6 +165,7 @@ public class MainFrame extends JFrame {
 		}
 
 		try {
+			logger.info("testing keystone");
 			URL url = new URL(TitanServerSetting.getInstance().glanceAdminURL);
 			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
 				JLabel warningLabel = new JLabel("glance is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
@@ -170,9 +176,10 @@ public class MainFrame extends JFrame {
 		}
 
 		try {
+			logger.info("testing nova");
 			URL url = new URL(TitanServerSetting.getInstance().novaAdminURL);
 			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+url.getHost()+"::"+url.getPort());
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + url.getHost() + "::" + url.getPort());
 				JLabel warningLabel = new JLabel("nova is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
 				statusPanel.add(warningLabel);
 			}
@@ -181,6 +188,7 @@ public class MainFrame extends JFrame {
 		}
 
 		try {
+			logger.info("testing s3");
 			URL url = new URL(TitanServerSetting.getInstance().s3AdminURL);
 			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
 				JLabel warningLabel = new JLabel("s3 is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
@@ -191,6 +199,7 @@ public class MainFrame extends JFrame {
 		}
 
 		try {
+			logger.info("testing ec2");
 			URL url = new URL(TitanServerSetting.getInstance().ec2AdminURL);
 			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
 				JLabel warningLabel = new JLabel("ec2 is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
