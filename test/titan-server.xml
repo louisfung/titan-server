@@ -1,5 +1,5 @@
 <com.titanserver.TitanServerSetting>
-  <id>ubuntu</id>
+  <id>peterubuntu</id>
   <titanServers>
     <titanServer>
       <id>sample titan server 1</id>
@@ -10,174 +10,174 @@
       <ip>192.168.0.3</ip>
     </titanServer>
   </titanServers>
-  <novaOsUsername>petercheung</novaOsUsername>
-  <novaOsPassword>titan@2013</novaOsPassword>
-  <novaOsTenantName>titan</novaOsTenantName>
-  <novaOsAuthUrl>http://103.11.91.150:5000/v2.0/</novaOsAuthUrl>
-  <novaOsService__endpoint>http://103.11.91.150:35357/v2.0/</novaOsService__endpoint>
+  <novaOsUsername>admin</novaOsUsername>
+  <novaOsPassword>123456</novaOsPassword>
+  <novaOsTenantName>admin</novaOsTenantName>
+  <novaOsAuthUrl>http://localhost:5000/v2.0/</novaOsAuthUrl>
+  <novaOsService__endpoint>http://localhost:35357/v2.0/</novaOsService__endpoint>
   <novaOsServiceToken>123456</novaOsServiceToken>
-  <novaAdminURL>http://103.11.91.150:8774/v2/</novaAdminURL>
-  <s3AdminURL>http://103.11.91.150:3333/</s3AdminURL>
-  <glanceAdminURL>http://103.11.91.150:9292/</glanceAdminURL>
-  <cinderAdminURL>http://103.11.91.150:8776/v1/</cinderAdminURL>
-  <ec2AdminURL>http://103.11.91.150:8773/services/Admin/</ec2AdminURL>
-  <keystoneAdminURL>http://103.11.91.150:35357/v2.0/</keystoneAdminURL>
+  <novaAdminURL>http://localhost:8774/v2/</novaAdminURL>
+  <s3AdminURL>http://localhost:3333/</s3AdminURL>
+  <glanceAdminURL>http://localhost:9292/</glanceAdminURL>
+  <cinderAdminURL>http://localhost:8776/v1/</cinderAdminURL>
+  <ec2AdminURL>http://localhost:8773/services/Admin/</ec2AdminURL>
+  <keystoneAdminURL>http://localhost:35357/v2.0/</keystoneAdminURL>
   <novaCommands>
     <entry>
       <string>cinder delete</string>
-      <string>curl -s http://103.11.91.150:8776/v1//$Tenant_Id/volumes/$volumeId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:8776/v1//$Tenant_Id/volumes/$volumeId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova soft-reboot</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;reboot&quot;: {&quot;type&quot;: &quot;SOFT&quot;}}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;reboot&quot;: {&quot;type&quot;: &quot;SOFT&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>keystone tenant-list</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//tenants  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:35357/v2.0//tenants  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>keystone role-delete</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//OS-KSADM/roles/$roleId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:35357/v2.0//OS-KSADM/roles/$roleId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/detail  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/detail  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>nova delete</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId  -X DELETE  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId  -X DELETE  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>keystone user-role-list</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//tenants/$Tenant_Id/users/$userId/roles -X GET  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:35357/v2.0//tenants/$Tenant_Id/users/$userId/roles -X GET  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>cinder type-delete</string>
-      <string>curl -s http://103.11.91.150:8776/v1//$Tenant_Id/types/$volumeTypeId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:8776/v1//$Tenant_Id/types/$volumeTypeId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova hypervisor-list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/os-hypervisors  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token:$Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-hypervisors  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token:$Token&quot;</string>
     </entry>
     <entry>
       <string>keystone user-create</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//users  -X POST  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;user&quot;: {&quot;email&quot;: &quot;$email&quot;, &quot;password&quot;: &quot;$password&quot;, &quot;enabled&quot;: $enabled, &quot;name&quot;: &quot;$name&quot;, &quot;tenantId&quot;: &quot;$tenantId&quot;}}&apos;</string>
+      <string>curl -s http://localhost:35357/v2.0//users  -X POST  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;user&quot;: {&quot;email&quot;: &quot;$email&quot;, &quot;password&quot;: &quot;$password&quot;, &quot;enabled&quot;: $enabled, &quot;name&quot;: &quot;$name&quot;, &quot;tenantId&quot;: &quot;$tenantId&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>nova endpoints</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//tokens  -X POST  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;auth&quot;: {&quot;tenantName&quot;: &quot;$Tenant_name&quot;, &quot;passwordCredentials&quot;: {&quot;username&quot;: &quot;$Username&quot;, &quot;password&quot;: &quot;$Password&quot;}}}&apos;</string>
+      <string>curl -s http://localhost:35357/v2.0//tokens  -X POST  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;auth&quot;: {&quot;tenantName&quot;: &quot;$Tenant_name&quot;, &quot;passwordCredentials&quot;: {&quot;username&quot;: &quot;$Username&quot;, &quot;password&quot;: &quot;$Password&quot;}}}&apos;</string>
     </entry>
     <entry>
       <string>cinder list</string>
-      <string>curl -s http://103.11.91.150:8776/v1//$Tenant_Id/volumes/detail  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:8776/v1//$Tenant_Id/volumes/detail  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova create-flavor</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/flavors  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;flavor&quot;: {&quot;vcpus&quot;: &quot;$vcpu&quot;, &quot;disk&quot;: &quot;$root&quot;, &quot;name&quot;: &quot;$name&quot;, &quot;os-flavor-access:is_public&quot;: true, &quot;rxtx_factor&quot;: &quot;1.0&quot;, &quot;OS-FLV-EXT-DATA:ephemeral&quot;: &quot;0&quot;, &quot;ram&quot;: &quot;$ram&quot;,  &quot;swap&quot;: &quot;$swap&quot;}}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/flavors  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;flavor&quot;: {&quot;vcpus&quot;: &quot;$vcpu&quot;, &quot;disk&quot;: &quot;$root&quot;, &quot;name&quot;: &quot;$name&quot;, &quot;os-flavor-access:is_public&quot;: true, &quot;rxtx_factor&quot;: &quot;1.0&quot;, &quot;OS-FLV-EXT-DATA:ephemeral&quot;: &quot;0&quot;, &quot;ram&quot;: &quot;$ram&quot;,  &quot;swap&quot;: &quot;$swap&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>cinder type-create</string>
-      <string>curl -s http://103.11.91.150:8776/v1//$Tenant_Id/types  -X POST  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;volume_type&quot;: {&quot;name&quot;: &quot;$name&quot;}}&apos;</string>
+      <string>curl -s http://localhost:8776/v1//$Tenant_Id/types  -X POST  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;volume_type&quot;: {&quot;name&quot;: &quot;$name&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>keystone tenant-delete</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//tenants/$tenantId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:35357/v2.0//tenants/$tenantId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>keystone role-list</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//OS-KSADM/roles  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:35357/v2.0//OS-KSADM/roles  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>cinder type-list</string>
-      <string>curl -s http://103.11.91.150:8776/v1//$Tenant_Id/types  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:8776/v1//$Tenant_Id/types  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova stop</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST &quot;  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;os-stop&quot;: null}&apos; </string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST &quot;  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;os-stop&quot;: null}&apos; </string>
     </entry>
     <entry>
       <string>nova delete-flavor</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/flavors/$flavorId  -X DELETE  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/flavors/$flavorId  -X DELETE  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>glance image-list</string>
-      <string>curl -s http://103.11.91.150:9292//v1/images/detail  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:9292//v1/images/detail  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>nova unpause</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;unpause&quot;: null}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;unpause&quot;: null}&apos;</string>
     </entry>
     <entry>
       <string>keystone endpoint-list</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//endpoints  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:35357/v2.0//endpoints  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova image-list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/images/detail  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/images/detail  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>nova flavor-list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/flavors/detail  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/flavors/detail  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>glance image-create</string>
-      <string>curl -s http://103.11.91.150:9292//v1/images  -X POST  -H &quot;Accept: application/json&quot;  -H &quot;Content-Type: application/octet-stream&quot;  -H &quot;X-Auth-Token: $Token&quot; -H &quot;x-image-meta-name: $x-image-meta-name&quot;  -H &quot;x-image-meta-container_format: bare&quot;  -H &quot;x-image-meta-disk_format: $x-image-meta-disk_format&quot;  -H &quot;x-image-meta-min-ram: $x-image-meta-min-ram&quot;  -H &quot;x-image-meta-min-disk: $x-image-meta-min-disk&quot;  -H &quot;x-image-meta-is-public: $x-image-meta-is-public&quot; -POSTDATA</string>
+      <string>curl -s http://localhost:9292//v1/images  -X POST  -H &quot;Accept: application/json&quot;  -H &quot;Content-Type: application/octet-stream&quot;  -H &quot;X-Auth-Token: $Token&quot; -H &quot;x-image-meta-name: $x-image-meta-name&quot;  -H &quot;x-image-meta-container_format: bare&quot;  -H &quot;x-image-meta-disk_format: $x-image-meta-disk_format&quot;  -H &quot;x-image-meta-min-ram: $x-image-meta-min-ram&quot;  -H &quot;x-image-meta-min-disk: $x-image-meta-min-disk&quot;  -H &quot;x-image-meta-is-public: $x-image-meta-is-public&quot; -POSTDATA</string>
     </entry>
     <entry>
       <string>nova host-list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/os-hosts  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-hosts  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>nova resume</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;resume&quot;: null}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;resume&quot;: null}&apos;</string>
     </entry>
     <entry>
       <string>nova agent-list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/os-agents  -X GET   -H &quot;X-Auth-Project-Id: $Project_name&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-agents  -X GET   -H &quot;X-Auth-Project-Id: $Project_name&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>keystone role-create</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//OS-KSADM/roles  -X POST  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;role&quot;: {&quot;name&quot;: &quot;$roleName&quot;}}&apos;</string>
+      <string>curl -s http://localhost:35357/v2.0//OS-KSADM/roles  -X POST  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;role&quot;: {&quot;name&quot;: &quot;$roleName&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>keystone user-list</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//users  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:35357/v2.0//users  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova suspend</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;suspend&quot;: null}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;suspend&quot;: null}&apos;</string>
     </entry>
     <entry>
       <string>nova aggregate-list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/os-aggregates  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-aggregates  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>cinder create</string>
-      <string>curl -s http://103.11.91.150:8776/v1//$Tenant_Id/volumes  -X POST  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;volume&quot;: {&quot;status&quot;: &quot;creating&quot;, &quot;availability_zone&quot;: null, &quot;source_volid&quot;: null, &quot;display_description&quot;: &quot;$displayDescription&quot;, &quot;snapshot_id&quot;: null, &quot;user_id&quot;: null, &quot;size&quot;: $size, &quot;display_name&quot;: &quot;$displayName&quot;, &quot;imageRef&quot;: null, &quot;attach_status&quot;: &quot;detached&quot;, &quot;volume_type&quot;: &quot;$volumeType&quot;, &quot;project_id&quot;: null, &quot;metadata&quot;: {}}}&apos;</string>
+      <string>curl -s http://localhost:8776/v1//$Tenant_Id/volumes  -X POST  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;volume&quot;: {&quot;status&quot;: &quot;creating&quot;, &quot;availability_zone&quot;: null, &quot;source_volid&quot;: null, &quot;display_description&quot;: &quot;$displayDescription&quot;, &quot;snapshot_id&quot;: null, &quot;user_id&quot;: null, &quot;size&quot;: $size, &quot;display_name&quot;: &quot;$displayName&quot;, &quot;imageRef&quot;: null, &quot;attach_status&quot;: &quot;detached&quot;, &quot;volume_type&quot;: &quot;$volumeType&quot;, &quot;project_id&quot;: null, &quot;metadata&quot;: {}}}&apos;</string>
     </entry>
     <entry>
       <string>keystone tenant-create</string>
-      <string>curl -s http://103.11.91.150:35357/v2.0//tenants  -X POST  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;tenant&quot;: {&quot;enabled&quot;: $enabled, &quot;name&quot;: &quot;$name&quot;, &quot;description&quot;:&quot;$description&quot;}}&apos;</string>
+      <string>curl -s http://localhost:35357/v2.0//tenants  -X POST  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;tenant&quot;: {&quot;enabled&quot;: $enabled, &quot;name&quot;: &quot;$name&quot;, &quot;description&quot;:&quot;$description&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>nova pause</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;pause&quot;: null}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;pause&quot;: null}&apos;</string>
     </entry>
     <entry>
       <string>nova boot</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;server&quot;: { &quot;min_count&quot;: &quot;$min_count&quot;, &quot;flavorRef&quot;: &quot;$flavorRef&quot;, &quot;name&quot;: &quot;$name&quot;, &quot;imageRef&quot;: &quot;$imageRef&quot;}}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;server&quot;: { &quot;min_count&quot;: &quot;$min_count&quot;, &quot;flavorRef&quot;: &quot;$flavorRef&quot;, &quot;name&quot;: &quot;$name&quot;, &quot;imageRef&quot;: &quot;$imageRef&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>nova hard-reboot</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;reboot&quot;: {&quot;type&quot;: &quot;HARD&quot;}}&apos;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;reboot&quot;: {&quot;type&quot;: &quot;HARD&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>nova cloudpipe-list</string>
-      <string>curl -s http://103.11.91.150:8774/v2//$Tenant_Id/os-cloudpipe  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-cloudpipe  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
       <string>glance image-delete</string>
-      <string>curl -s http://103.11.91.150:9292//v1/images/$imageId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:9292//v1/images/$imageId  -X DELETE  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
   </novaCommands>
 </com.titanserver.TitanServerSetting>
