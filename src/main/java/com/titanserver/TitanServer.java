@@ -20,10 +20,16 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.titanserver.quartz.CPUMemoryJob;
 import com.titanserver.structure.TitanServerDefinition;
 
 public class TitanServer {
@@ -291,7 +297,13 @@ public class TitanServer {
 			// and start it off
 			scheduler.start();
 
-			scheduler.shutdown();
+			JobDetail job = JobBuilder.newJob(CPUMemoryJob.class).withIdentity("CPUMemoryJob").build();
+
+			//	Trigger trigger = TriggerBuilder.newTrigger().startNow().withSchedule(repeatSecondlyForever(2)).build();
+			Trigger trigger = (Trigger) TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").startNow()
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(40).repeatForever());
+
+			scheduler.scheduleJob(job, trigger);
 
 		} catch (SchedulerException se) {
 			se.printStackTrace();
