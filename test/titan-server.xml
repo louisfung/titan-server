@@ -1,9 +1,5 @@
 <com.titanserver.TitanServerSetting>
-<<<<<<< HEAD
   <id>peterubuntu</id>
-=======
-  <id>titanserver</id>
->>>>>>> 768a27be222f8f8e8f7e5250f60f79591ae99b77
   <titanServers>
     <titanServer>
       <id>sample titan server 1</id>
@@ -132,12 +128,12 @@
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-hosts  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
-      <string>nova resume</string>
-      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;resume&quot;: null}&apos;</string>
-    </entry>
-    <entry>
       <string>nova agent-list</string>
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-agents  -X GET   -H &quot;X-Auth-Project-Id: $Project_name&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+    </entry>
+    <entry>
+      <string>nova resume</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;resume&quot;: null}&apos;</string>
     </entry>
     <entry>
       <string>keystone role-create</string>
@@ -172,12 +168,12 @@
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;server&quot;: { &quot;min_count&quot;: &quot;$min_count&quot;, &quot;flavorRef&quot;: &quot;$flavorRef&quot;, &quot;name&quot;: &quot;$name&quot;, &quot;imageRef&quot;: &quot;$imageRef&quot;}}&apos;</string>
     </entry>
     <entry>
-      <string>nova hard-reboot</string>
-      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;reboot&quot;: {&quot;type&quot;: &quot;HARD&quot;}}&apos;</string>
-    </entry>
-    <entry>
       <string>nova cloudpipe-list</string>
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-cloudpipe  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+    </entry>
+    <entry>
+      <string>nova hard-reboot</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;reboot&quot;: {&quot;type&quot;: &quot;HARD&quot;}}&apos;</string>
     </entry>
     <entry>
       <string>glance image-delete</string>
