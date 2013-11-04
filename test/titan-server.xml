@@ -1,5 +1,9 @@
 <com.titanserver.TitanServerSetting>
+<<<<<<< HEAD
   <id>peterubuntu</id>
+=======
+  <id>titanserver</id>
+>>>>>>> 768a27be222f8f8e8f7e5250f60f79591ae99b77
   <titanServers>
     <titanServer>
       <id>sample titan server 1</id>
