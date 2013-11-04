@@ -20,6 +20,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
 
 import com.titanserver.structure.TitanServerDefinition;
 
@@ -275,7 +278,24 @@ public class TitanServer {
 			new MainFrame().setVisible(true);
 		}
 
+		startQuartz();
+
 		new TitanServer();
+	}
+
+	private static void startQuartz() {
+		try {
+			// Grab the Scheduler instance from the Factory 
+			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+			// and start it off
+			scheduler.start();
+
+			scheduler.shutdown();
+
+		} catch (SchedulerException se) {
+			se.printStackTrace();
+		}
 	}
 
 	private static void testSigar() {

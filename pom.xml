@@ -110,6 +110,11 @@
 			<artifactId>antlr4</artifactId>
 			<version>4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>titan-server${project.version}</finalName>
