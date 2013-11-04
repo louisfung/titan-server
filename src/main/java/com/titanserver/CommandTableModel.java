@@ -7,9 +7,6 @@ import javax.swing.table.DefaultTableModel;
 public class CommandTableModel extends DefaultTableModel {
 	String columnNames[] = { "Nova command", "Json" };
 
-	public CommandTableModel() {
-	}
-
 	public String getColumnName(int column) {
 		return columnNames[column];
 	}

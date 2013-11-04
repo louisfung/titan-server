@@ -1,9 +1,12 @@
 package com.titanserver;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -19,8 +22,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
 
@@ -28,15 +34,17 @@ import com.peterswing.CommonLib;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
 import com.peterswing.advancedswing.jtable.SortableTableModel;
 import com.peterswing.advancedswing.jtable.TableSorterColumnListener;
+import com.peterswing.advancedswing.searchtextfield.JSearchTextField;
 import com.titanserver.openstack_communication.OpenstackComm;
 
 public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	CommandTableModel commandTableModel = new CommandTableModel();
-	SortableTableModel sortableCommandTableModel = new SortableTableModel(commandTableModel);
-	TableSorterColumnListener tableSorterColumnListener2;
-
+	//	SortableTableModel sortableCommandTableModel = new SortableTableModel(commandTableModel);
+	//	TableSorterColumnListener tableSorterColumnListener2;
+	final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(commandTableModel);
 	private JTable commandTable;
+
 	private JTable titanTable;
 	TitanCommandTableModel titanTableModel = new TitanCommandTableModel();
 	SortableTableModel sortableTableModel = new SortableTableModel(titanTableModel);
@@ -44,6 +52,7 @@ public class MainFrame extends JFrame {
 	private JTable clientTable;
 
 	private static Logger logger = Logger.getLogger(MainFrame.class);
+	private JSearchTextField searchTextField;
 
 	public MainFrame() {
 		setTitle("Titan server " + Global.version);
@@ -57,22 +66,22 @@ public class MainFrame extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Log", null, panel, null);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel logPanel = new JPanel();
+		tabbedPane.addTab("Log", null, logPanel, null);
+		logPanel.setLayout(new BorderLayout(0, 0));
 
 		EnhancedTextArea enhancedTextArea = new EnhancedTextArea();
 		enhancedTextArea.addTrailListener(new File("titan-server.log"), 300, true);
-		panel.add(enhancedTextArea);
+		logPanel.add(enhancedTextArea);
 
-		JPanel panelTest = new JPanel();
-		tabbedPane.addTab("Openstack test", null, panelTest, null);
-		panelTest.setLayout(new BorderLayout(0, 0));
+		JPanel openstackTestPanel = new JPanel();
+		tabbedPane.addTab("Openstack test", null, openstackTestPanel, null);
+		openstackTestPanel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
-		panelTest.add(scrollPane, BorderLayout.CENTER);
+		openstackTestPanel.add(scrollPane, BorderLayout.CENTER);
 
-		commandTable = new JTable();
+		commandTable = new JTable(commandTableModel);
 		commandTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -82,20 +91,23 @@ public class MainFrame extends JFrame {
 			}
 		});
 		commandTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tableSorterColumnListener2 = new TableSorterColumnListener(commandTable, sortableCommandTableModel);
+		//		tableSorterColumnListener2 = new TableSorterColumnListener(commandTable, sortableCommandTableModel);
 		commandTable.getTableHeader().setReorderingAllowed(false);
-		commandTable.setModel(sortableCommandTableModel);
+		//		commandTable.setModel(sortableCommandTableModel);
+		//		commandTable.setModel(commandTableModel);
 		commandTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		commandTable.getTableHeader().addMouseListener(tableSorterColumnListener2);
+		//		commandTable.getTableHeader().addMouseListener(tableSorterColumnListener2);
 		commandTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		commandTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 		commandTable.getColumnModel().getColumn(1).setPreferredWidth(1500);
-		sortableCommandTableModel.sortByColumn(0, true);
+		//		sortableCommandTableModel.sortByColumn(0, true);
+
+		commandTable.setRowSorter(sorter);
 
 		scrollPane.setViewportView(commandTable);
 
 		JPanel panel_1 = new JPanel();
-		panelTest.add(panel_1, BorderLayout.SOUTH);
+		openstackTestPanel.add(panel_1, BorderLayout.SOUTH);
 
 		JButton btnRun = new JButton("Run");
 		btnRun.addActionListener(new ActionListener() {
@@ -105,12 +117,27 @@ public class MainFrame extends JFrame {
 		});
 		panel_1.add(btnRun);
 
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Titan command test", null, panel_2, null);
-		panel_2.setLayout(new BorderLayout(0, 0));
+		JPanel toolBar = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) toolBar.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		openstackTestPanel.add(toolBar, BorderLayout.NORTH);
+
+		searchTextField = new JSearchTextField();
+		searchTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				sorter.setRowFilter(RowFilter.regexFilter(searchTextField.getText()));
+			}
+		});
+		searchTextField.setPreferredSize(new Dimension(200, 25));
+		toolBar.add(searchTextField);
+
+		JPanel titanCommandPanel = new JPanel();
+		tabbedPane.addTab("Titan command test", null, titanCommandPanel, null);
+		titanCommandPanel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel_2.add(scrollPane_1, BorderLayout.CENTER);
+		titanCommandPanel.add(scrollPane_1, BorderLayout.CENTER);
 
 		titanTable = new JTable();
 		titanTable.addMouseListener(new MouseAdapter() {
@@ -132,12 +159,12 @@ public class MainFrame extends JFrame {
 
 		scrollPane_1.setViewportView(titanTable);
 
-		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("Client", null, panel_3, null);
-		panel_3.setLayout(new BorderLayout(0, 0));
+		JPanel clientPanel = new JPanel();
+		tabbedPane.addTab("Client", null, clientPanel, null);
+		clientPanel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_2 = new JScrollPane();
-		panel_3.add(scrollPane_2, BorderLayout.CENTER);
+		clientPanel.add(scrollPane_2, BorderLayout.CENTER);
 
 		clientTable = new JTable();
 		scrollPane_2.setViewportView(clientTable);
@@ -179,7 +206,6 @@ public class MainFrame extends JFrame {
 			logger.info("testing nova");
 			URL url = new URL(TitanServerSetting.getInstance().novaAdminURL);
 			if (!CommonLib.portIsOpen(url.getHost(), url.getPort(), 1)) {
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + url.getHost() + "::" + url.getPort());
 				JLabel warningLabel = new JLabel("nova is down", new ImageIcon(MainFrame.class.getResource("/images/icons/error.png")), SwingConstants.LEFT);
 				statusPanel.add(warningLabel);
 			}
@@ -212,7 +238,7 @@ public class MainFrame extends JFrame {
 
 	void runCommand() {
 		int row = commandTable.getSelectedRow();
-		if (row > 3) {
+		if (!commandTable.getValueAt(row, 0).toString().contains("Os ")) {
 			RunCommandDialog r = new RunCommandDialog(this);
 			r.setTitle((String) commandTable.getValueAt(row, 0));
 			r.command = (String) commandTable.getValueAt(row, 1);

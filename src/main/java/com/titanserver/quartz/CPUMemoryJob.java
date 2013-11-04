@@ -10,7 +10,7 @@ public class CPUMemoryJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		logger.info("exe");
-
+		logger.info("executing schedule job : " + arg0.getJobInstance().toString());
+		
 	}
 }

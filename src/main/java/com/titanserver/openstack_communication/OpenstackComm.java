@@ -23,6 +23,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
 import com.titanserver.ParameterTableModel;
 import com.titanserver.TitanServerCommonLib;
@@ -274,7 +278,7 @@ public class OpenstackComm {
 				log(enhancedTextArea, "GET()");
 				result = OpenstackComm.get(url, headers, true);
 			}
-			log(enhancedTextArea, "result=" + result);
+			logJSon(enhancedTextArea, result);
 			return result;
 		} else {
 			log(enhancedTextArea, "url error");
@@ -382,5 +386,23 @@ public class OpenstackComm {
 			return;
 		}
 		enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str);
+	}
+
+	private static void logJSon(EnhancedTextArea enhancedTextArea, String str) {
+		if (enhancedTextArea == null) {
+			return;
+		}
+		try {
+			enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + formatJSon(str));
+		} catch (Exception ex) {
+			enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str);
+		}
+	}
+
+	private static String formatJSon(String str) {
+		JsonParser parser = new JsonParser();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonElement el = parser.parse(str);
+		return gson.toJson(el);
 	}
 }

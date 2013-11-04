@@ -76,7 +76,9 @@ public class TitanServer {
 		if (cmd.hasOption("sample_setting") || cmd.hasOption("s")) {
 			try {
 				IOUtils.copy(TitanServer.class.getResourceAsStream("/hibernate.cfg.xml"), new FileOutputStream("hibernate.cfg.xml"));
+				System.out.println("Created hibernate.cfg.xml");
 				IOUtils.copy(TitanServer.class.getResourceAsStream("/log4j.properties"), new FileOutputStream("log4j.properties"));
+				System.out.println("Created log4j.properties");
 
 				TitanServerSetting setting = TitanServerSetting.getInstance();
 				try {
@@ -200,6 +202,9 @@ public class TitanServer {
 						+ " -H \"X-Auth-Project-Id: admin\" " + " -H \"Content-Type: application/json\" " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" "
 						+ " -d '{\"reboot\": {\"type\": \"HARD\"}}'");
 
+				setting.novaCommands.put("nova diagnostics", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/servers/$InstanceId/diagnostics " + " -X GET "
+						+ " -H \"X-Auth-Project-Id: admin\" " + " -H \"Content-Type: application/json\" " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
+
 				setting.novaCommands.put("keystone role-create", "curl -s " + setting.keystoneAdminURL + "/OS-KSADM/roles " + " -X POST " + " -H \"Accept: application/json\" "
 						+ " -H \"X-Auth-Token: $Token\" " + " -H \"Content-Type: application/json\" " + " -d '{\"role\": {\"name\": \"$roleName\"}}'");
 
@@ -291,20 +296,15 @@ public class TitanServer {
 
 	private static void startQuartz() {
 		try {
-			// Grab the Scheduler instance from the Factory 
 			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-
-			// and start it off
 			scheduler.start();
 
+			logger.info(scheduler.getSchedulerName() + " started");
+
 			JobDetail job = JobBuilder.newJob(CPUMemoryJob.class).withIdentity("CPUMemoryJob").build();
-
-			//	Trigger trigger = TriggerBuilder.newTrigger().startNow().withSchedule(repeatSecondlyForever(2)).build();
-			Trigger trigger = (Trigger) TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").startNow()
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(40).repeatForever());
-
+			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").startNow()
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(1).repeatForever()).build();
 			scheduler.scheduleJob(job, trigger);
-
 		} catch (SchedulerException se) {
 			se.printStackTrace();
 		}
