@@ -244,7 +244,8 @@ public class TitanServerCommonLib {
 			}
 			stdInput.close();
 		} catch (Exception ex) {
-			//			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			// JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
+			// JOptionPane.ERROR_MESSAGE);
 			ex.printStackTrace();
 		}
 		return sb.toString();
@@ -270,7 +271,7 @@ public class TitanServerCommonLib {
 		return null;
 	}
 
-	private static ReturnCommand execute(Command command) {
+	public static ReturnCommand execute(Command command) {
 		ReturnCommand r = new ReturnCommand();
 
 		ParameterTableModel parameterTableModel = new ParameterTableModel();
@@ -286,5 +287,21 @@ public class TitanServerCommonLib {
 		String result = OpenstackComm.execute(command.command, parameterTableModel);
 		r.map.put("result", result);
 		return r;
+	}
+
+	public static String getJSONString(JSONObject obj, String key, String returnValue) {
+		try {
+			return obj.getString(key);
+		} catch (Exception ex) {
+			return returnValue;
+		}
+	}
+
+	public static int getJSONInt(JSONObject obj, String key, int returnValue) {
+		try {
+			return obj.getInt(key);
+		} catch (Exception ex) {
+			return returnValue;
+		}
 	}
 }

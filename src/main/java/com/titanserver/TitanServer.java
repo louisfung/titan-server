@@ -303,7 +303,7 @@ public class TitanServer {
 
 			JobDetail job = JobBuilder.newJob(CPUMemoryJob.class).withIdentity("CPUMemoryJob").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").startNow()
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(1).repeatForever()).build();
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(5).repeatForever()).build();
 			scheduler.scheduleJob(job, trigger);
 		} catch (SchedulerException se) {
 			se.printStackTrace();
