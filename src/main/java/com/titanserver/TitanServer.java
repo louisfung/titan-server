@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.UIManager;
 
@@ -22,12 +24,14 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
 
 import com.titanserver.quartz.CPUMemoryJob;
 import com.titanserver.structure.TitanServerDefinition;
@@ -303,7 +307,7 @@ public class TitanServer {
 
 			JobDetail job = JobBuilder.newJob(CPUMemoryJob.class).withIdentity("CPUMemoryJob").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").startNow()
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(5).repeatForever()).build();
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(30).repeatForever()).build();
 			scheduler.scheduleJob(job, trigger);
 		} catch (SchedulerException se) {
 			se.printStackTrace();

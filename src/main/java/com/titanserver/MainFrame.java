@@ -40,6 +40,7 @@ import com.titanserver.openstack_communication.OpenstackComm;
 public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	CommandTableModel commandTableModel = new CommandTableModel();
+	ClientTableModel clientTableModel = new ClientTableModel();
 	//	SortableTableModel sortableCommandTableModel = new SortableTableModel(commandTableModel);
 	//	TableSorterColumnListener tableSorterColumnListener2;
 	final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(commandTableModel);
@@ -163,10 +164,22 @@ public class MainFrame extends JFrame {
 		tabbedPane.addTab("Client", null, clientPanel, null);
 		clientPanel.setLayout(new BorderLayout(0, 0));
 
+		JPanel panel = new JPanel();
+		clientPanel.add(panel, BorderLayout.SOUTH);
+
+		JButton refreshClientButton = new JButton("Refresh");
+		refreshClientButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clientTableModel.fireTableDataChanged();
+			}
+		});
+		panel.add(refreshClientButton);
+
 		JScrollPane scrollPane_2 = new JScrollPane();
 		clientPanel.add(scrollPane_2, BorderLayout.CENTER);
 
 		clientTable = new JTable();
+		clientTable.setModel(clientTableModel);
 		scrollPane_2.setViewportView(clientTable);
 
 		JPanel statusPanel = new JPanel();
