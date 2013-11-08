@@ -274,6 +274,9 @@ public class TitanServer {
 				e.printStackTrace();
 			}
 			System.exit(0);
+		} else {
+			// refresh the latest setting
+			TitanServerSetting.getInstance().save();
 		}
 
 		try {
@@ -307,7 +310,7 @@ public class TitanServer {
 
 			JobDetail job = JobBuilder.newJob(CPUMemoryJob.class).withIdentity("CPUMemoryJob").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").startNow()
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(30).repeatForever()).build();
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(TitanServerSetting.getInstance().updateInterval).repeatForever()).build();
 			scheduler.scheduleJob(job, trigger);
 		} catch (SchedulerException se) {
 			se.printStackTrace();

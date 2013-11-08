@@ -28,6 +28,7 @@ public class TitanServerSetting {
 	public String cinderAdminURL;
 	public String ec2AdminURL;
 	public String keystoneAdminURL;
+	public int updateInterval=30;
 
 	//	public String novaOsService_endpoint;
 	public HashMap<String, String> novaCommands = new HashMap<String, String>();
