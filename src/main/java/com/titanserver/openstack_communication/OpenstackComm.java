@@ -110,7 +110,7 @@ public class OpenstackComm {
 		if (token == null && checkToken) {
 			initToken();
 		}
-		logger.info("get(), url=" + url + ", headers=" + headers + "checkToken=" + checkToken);
+//		logger.info("get(), url=" + url + ", headers=" + headers + "checkToken=" + checkToken);
 		HttpClient httpClient = new DefaultHttpClient();
 
 		try {
