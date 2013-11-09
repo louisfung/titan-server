@@ -1,5 +1,7 @@
 package com.titanserver.quartz;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -31,6 +33,7 @@ public class CPUMemoryStatJob implements Job {
 
 			Transaction tx = session.beginTransaction();
 			ServerDiagnostics d = new ServerDiagnostics();
+			d.setDate(new Date());
 			d.setCpu(cpuPerc.getCombined());
 			d.setMemory(mem.getUsed());
 			d.setDisk(diskUsage.getReads() + diskUsage.getWrites());

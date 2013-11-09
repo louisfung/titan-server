@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Mem;
@@ -27,6 +28,7 @@ import com.titanserver.table.InstancePermission;
 import com.titanserver.table.InstancePermissionGroup;
 import com.titanserver.table.ScreenPermission;
 import com.titanserver.table.ScreenPermissionGroup;
+import com.titanserver.table.ServerDiagnostics;
 import com.titanserver.table.User;
 
 public class SocketThread implements Runnable {
@@ -75,11 +77,6 @@ public class SocketThread implements Runnable {
 					}
 					session.close();
 				} else if (command.command.equals("updateStatus")) {
-					//					Runtime runtime = Runtime.getRuntime();
-					//					long maxMemory = runtime.maxMemory();
-					//					long allocatedMemory = runtime.totalMemory();
-					//					long freeMemory = runtime.freeMemory();
-
 					Mem mem = sigar.getMem();
 					r.map.put("maxMemory", mem.getTotal());
 					r.map.put("allocatedMemory", mem.getActualUsed());
@@ -95,6 +92,17 @@ public class SocketThread implements Runnable {
 					r.map.put("outSegs", tcp.getOutSegs());
 
 					r.map.put("os", System.getProperty("os.name"));
+				} else if (command.command.equals("getServerDiagnostics")) {
+					Session session = HibernateUtil.openSession();
+					Query query = session.createQuery("from ServerDiagnostics");
+					Criteria criteria = session.createCriteria(ServerDiagnostics.class);
+					criteria.add(Restrictions.ge("date", command.parameters.get(0)));
+					criteria.add(Restrictions.le("date", command.parameters.get(1)));
+					criteria.add(Restrictions.eq("enable", true));
+					criteria.addOrder(Order.asc("date"));
+					List<ServerDiagnostics> list = criteria.list();
+					r.map.put("result", list);
+					session.close();
 				} else if (command.command.equals("getID")) {
 					r.message = TitanServerSetting.getInstance().id;
 				} else if (command.command.equals("getTitanServerInfo")) {
