@@ -11,9 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "diagnostics")
-public class Diagnostics implements java.io.Serializable {
-	private Integer diagnosticsID;
+@Table(name = "instanceDiagnostics")
+public class InstanceDiagnostics implements java.io.Serializable {
+	private Integer instanceDiagnosticsID;
+	private String instanceID;
 	private Date date;
 	private int hdd_errors;
 	private int vnet7_tx_drop;
@@ -36,21 +37,28 @@ public class Diagnostics implements java.io.Serializable {
 	private int vda_read_req;
 	private int hdd_write;
 
-	public Diagnostics() {
+	public InstanceDiagnostics() {
 	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "diagnosticsID", unique = true, nullable = false)
+	@Column(name = "instanceDiagnosticsID", unique = true, nullable = false)
 	public Integer getDiagnosticsID() {
-		return this.diagnosticsID;
+		return this.instanceDiagnosticsID;
 	}
 
-	public void setDiagnosticsID(Integer logID) {
-		this.diagnosticsID = logID;
+	public void setDiagnosticsID(Integer instanceDiagnosticsID) {
+		this.instanceDiagnosticsID = instanceDiagnosticsID;
 	}
 
-	@Column(name = "date")
+	public String getInstanceID() {
+		return instanceID;
+	}
+
+	public void setInstanceID(String instanceID) {
+		this.instanceID = instanceID;
+	}
+
 	public Date getDate() {
 		return date;
 	}

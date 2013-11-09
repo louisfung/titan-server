@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
-import java.util.List;
 
 import javax.swing.UIManager;
 
@@ -24,16 +22,15 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
-import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.impl.matchers.GroupMatcher;
 
-import com.titanserver.quartz.CPUMemoryJob;
+import com.titanserver.quartz.CPUMemoryStatJob;
+import com.titanserver.quartz.InstanceStatJob;
 import com.titanserver.structure.TitanServerDefinition;
 
 public class TitanServer {
@@ -308,8 +305,13 @@ public class TitanServer {
 
 			logger.info(scheduler.getSchedulerName() + " started");
 
-			JobDetail job = JobBuilder.newJob(CPUMemoryJob.class).withIdentity("CPUMemoryJob").build();
+			JobDetail job = JobBuilder.newJob(InstanceStatJob.class).withIdentity("Instance Stat Job").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").startNow()
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(TitanServerSetting.getInstance().updateInterval).repeatForever()).build();
+			scheduler.scheduleJob(job, trigger);
+
+			job = JobBuilder.newJob(CPUMemoryStatJob.class).withIdentity("CPU And Memory Stat Job").build();
+			trigger = TriggerBuilder.newTrigger().withIdentity("trigger2", "group1").startNow()
 					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(TitanServerSetting.getInstance().updateInterval).repeatForever()).build();
 			scheduler.scheduleJob(job, trigger);
 		} catch (SchedulerException se) {

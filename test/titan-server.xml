@@ -22,7 +22,7 @@
   <cinderAdminURL>http://localhost:8776/v1/</cinderAdminURL>
   <ec2AdminURL>http://localhost:8773/services/Admin/</ec2AdminURL>
   <keystoneAdminURL>http://localhost:35357/v2.0/</keystoneAdminURL>
-  <updateInterval>30</updateInterval>
+  <updateInterval>2</updateInterval>
   <novaCommands>
     <entry>
       <string>nova soft-reboot</string>
