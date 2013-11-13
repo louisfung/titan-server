@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.UIManager;
 
@@ -18,6 +21,9 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.hyperic.sigar.NetFlags;
+import org.hyperic.sigar.NetInterfaceConfig;
+import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.quartz.JobBuilder;
@@ -42,6 +48,28 @@ public class TitanServer {
 	private static Logger logger = Logger.getLogger(TitanServer.class);
 
 	public static void main(String[] args) {
+		Sigar sigar = new Sigar();
+		try {
+			for (String ni : sigar.getNetInterfaceList()) {
+				// System.out.println(ni);
+				NetInterfaceStat netStat = sigar.getNetInterfaceStat(ni);
+				NetInterfaceConfig ifConfig = sigar.getNetInterfaceConfig(ni);
+				String hwaddr = null;
+				if (!NetFlags.NULL_HWADDR.equals(ifConfig.getHwaddr())) {
+					hwaddr = ifConfig.getHwaddr();
+				}
+				if (hwaddr != null) {
+					long rxCurrenttmp = netStat.getRxBytes();
+					long txCurrenttmp = netStat.getTxBytes();
+					netStat.get
+					System.out.println(ni + "=" + rxCurrenttmp);
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		System.exit(0);
+
 		try {
 			UIManager.setLookAndFeel("com.peterswing.white.PeterSwingWhiteLookAndFeel");
 		} catch (Exception e) {

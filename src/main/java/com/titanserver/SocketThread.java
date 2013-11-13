@@ -99,6 +99,7 @@ public class SocketThread implements Runnable {
 					Criteria criteria = session.createCriteria(ServerDiagnostics.class);
 					Date fromDate = (Date) command.parameters.get(0);
 					Date toDate = (Date) command.parameters.get(1);
+					System.out.println(fromDate+","+toDate);
 					criteria.add(Restrictions.ge("date", fromDate));
 					criteria.add(Restrictions.le("date", toDate));
 					criteria.addOrder(Order.asc("date"));
@@ -262,9 +263,6 @@ public class SocketThread implements Runnable {
 				}
 				out.writeObject(r);
 				out.flush();
-				if (!command.command.equals("updateStatus")) {
-					logger.info("Command replied to client");
-				}
 			} else {
 				logger.error("Can't start thread because in/out stream are null, thread name : " + name);
 			}

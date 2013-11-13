@@ -26,11 +26,13 @@ public class InstanceStatJob implements Job {
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		logger.info("executing schedule job : " + arg0.getJobInstance().toString());
 		Session session = HibernateUtil.openSession();
+		Object result = null;
 		try {
 			Command command = new Command();
 			command.command = "from titan: nova list";
 			ReturnCommand r = TitanServerCommonLib.execute(command);
-			JSONArray servers = JSONObject.fromObject(r.map.get("result")).getJSONArray("servers");
+			result = r.map.get("result");
+			JSONArray servers = JSONObject.fromObject(result).getJSONArray("servers");
 			for (int x = 0; x < servers.size(); x++) {
 				JSONObject obj = servers.getJSONObject(x);
 				String instanceID = TitanServerCommonLib.getJSONString(obj, "id", "");
@@ -73,6 +75,7 @@ public class InstanceStatJob implements Job {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			logger.error("result=" + result);
 		} finally {
 			if (session != null && session.isConnected()) {
 				session.close();

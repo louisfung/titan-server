@@ -19,6 +19,9 @@ import com.titanserver.table.ServerDiagnostics;
 
 public class CPUMemoryStatJob implements Job {
 	private static Logger logger = Logger.getLogger(CPUMemoryStatJob.class);
+	Date lastDate = new Date();
+	long lastDisk = 0;
+	long lastNetwork = 0;
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
@@ -31,15 +34,20 @@ public class CPUMemoryStatJob implements Job {
 			DiskUsage diskUsage = sigar.getDiskUsage("/");
 			Tcp tcp = sigar.getTcp();
 
-			Transaction tx = session.beginTransaction();
-			ServerDiagnostics d = new ServerDiagnostics();
-			d.setDate(new Date());
-			d.setCpu(cpuPerc.getCombined());
-			d.setMemory(mem.getUsed());
-			d.setDisk(diskUsage.getReads() + diskUsage.getWrites());
-			d.setNetwork(tcp.getInSegs() + tcp.getOutSegs());
-			session.save(d);
-			tx.commit();
+			if (lastDate != null) {
+				Transaction tx = session.beginTransaction();
+				ServerDiagnostics d = new ServerDiagnostics();
+				d.setDate(new Date());
+				d.setCpu(cpuPerc.getCombined() * 100);
+				d.setMemory(((double) mem.getUsed()) / mem.getTotal() * 100);
+				d.setDisk(((diskUsage.getReads() + diskUsage.getWrites()) - lastDisk) / ((new Date().getTime() - lastDate.getTime())) / 1000);
+				d.setNetwork(((tcp.getInSegs() + tcp.getOutSegs()) - lastDisk) / ((new Date().getTime() - lastDate.getTime())) / 1000);
+				session.save(d);
+				tx.commit();
+			}
+			lastDisk = diskUsage.getReads() + diskUsage.getWrites();
+			lastNetwork = tcp.getInSegs() + tcp.getOutSegs();
+			lastDate = new Date();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
