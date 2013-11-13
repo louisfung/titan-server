@@ -61,14 +61,13 @@ public class TitanServer {
 				if (hwaddr != null) {
 					long rxCurrenttmp = netStat.getRxBytes();
 					long txCurrenttmp = netStat.getTxBytes();
-					netStat.get
+//					netStat.get
 					System.out.println(ni + "=" + rxCurrenttmp);
 				}
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		System.exit(0);
 
 		try {
 			UIManager.setLookAndFeel("com.peterswing.white.PeterSwingWhiteLookAndFeel");
