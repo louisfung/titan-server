@@ -6,9 +6,8 @@ import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.UIManager;
 
@@ -21,6 +20,14 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.DateType;
+import org.hibernate.type.Type;
 import org.hyperic.sigar.NetFlags;
 import org.hyperic.sigar.NetInterfaceConfig;
 import org.hyperic.sigar.NetInterfaceStat;
@@ -38,6 +45,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import com.titanserver.quartz.CPUMemoryStatJob;
 import com.titanserver.quartz.InstanceStatJob;
 import com.titanserver.structure.TitanServerDefinition;
+import com.titanserver.table.ServerDiagnostics;
 
 public class TitanServer {
 	private static CommandLine cmd;
@@ -48,6 +56,21 @@ public class TitanServer {
 	private static Logger logger = Logger.getLogger(TitanServer.class);
 
 	public static void main(String[] args) {
+		Session session = HibernateUtil.openSession();
+		Query query = session.createQuery("from ServerDiagnostics");
+		Criteria criteria = session.createCriteria(ServerDiagnostics.class);
+		Date fromDate = new Date(2013, 11, 16);
+		Date toDate = new Date(2013, 11, 16, 23, 59, 59);
+		String period = "minute";
+		System.out.println(fromDate + "," + toDate);
+		criteria.add(Restrictions.ge("date", fromDate));
+		criteria.add(Restrictions.le("date", toDate));
+		criteria.addOrder(Order.asc("date"));
+//		criteria.setProjection(Projections.projectionList()
+//				.add(Projections.sqlGroupProjection("hour(date) as x", "hour(date)", new String[] { "x" }, new Type[] { DateType.INSTANCE })).add(Projections.avg("cpu")));
+		List<ServerDiagnostics> list = criteria.list();
+		//System.exit(1);
+
 		Sigar sigar = new Sigar();
 		try {
 			for (String ni : sigar.getNetInterfaceList()) {
@@ -61,7 +84,7 @@ public class TitanServer {
 				if (hwaddr != null) {
 					long rxCurrenttmp = netStat.getRxBytes();
 					long txCurrenttmp = netStat.getTxBytes();
-//					netStat.get
+					//					netStat.get
 					System.out.println(ni + "=" + rxCurrenttmp);
 				}
 			}
