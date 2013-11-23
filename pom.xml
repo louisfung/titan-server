@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.titanserver</groupId>
 	<artifactId>titan-server</artifactId>
-	<version>20131012</version>
+	<version>20131123</version>
 	<dependencies>
 		<dependency>
 			<groupId>com.peter</groupId>
 			<artifactId>peter-swing</artifactId>
-			<version>20131001</version>
+			<version>20131123</version>
 		</dependency>
 		<dependency>
 			<groupId>com.apple</groupId>
@@ -114,6 +114,11 @@
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.13</version>
 		</dependency>
 	</dependencies>
 	<build>
