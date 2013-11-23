@@ -3,6 +3,8 @@ package com.titanserver.openstack_communication;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -110,7 +112,7 @@ public class OpenstackComm {
 		if (token == null && checkToken) {
 			initToken();
 		}
-//		logger.info("get(), url=" + url + ", headers=" + headers + "checkToken=" + checkToken);
+		//		logger.info("get(), url=" + url + ", headers=" + headers + "checkToken=" + checkToken);
 		HttpClient httpClient = new DefaultHttpClient();
 
 		try {

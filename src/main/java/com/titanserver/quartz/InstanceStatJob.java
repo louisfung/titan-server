@@ -37,13 +37,12 @@ public class InstanceStatJob implements Job {
 				JSONObject obj = servers.getJSONObject(x);
 				String instanceID = TitanServerCommonLib.getJSONString(obj, "id", "");
 
-				command.command = "from titan: nova diagnostics";
+				command.command = "from titan: nova list";
 				HashMap<String, String> parameters = new HashMap<String, String>();
 				parameters.put("$InstanceId", instanceID);
 				command.parameters.add(parameters);
 				ReturnCommand r2 = TitanServerCommonLib.execute(command);
 				Date currentTime = new Date();
-
 				JSONObject jsonObj = JSONObject.fromObject(r2.map.get("result"));
 
 				Transaction tx = session.beginTransaction();
