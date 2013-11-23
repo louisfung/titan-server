@@ -18,8 +18,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
+import org.hibernate.type.Type;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
@@ -101,12 +105,49 @@ public class SocketThread implements Runnable {
 					Date fromDate = (Date) command.parameters.get(0);
 					Date toDate = (Date) command.parameters.get(1);
 					String period = (String) command.parameters.get(2);
-					System.out.println(fromDate + "," + toDate);
+					String grouping = (String) command.parameters.get(3);
+					//System.out.println(fromDate + "," + toDate);
 					criteria.add(Restrictions.ge("date", fromDate));
 					criteria.add(Restrictions.le("date", toDate));
 					criteria.addOrder(Order.asc("date"));
-//					criteria.setProjection(Projections.projectionList().add(Projections.groupProperty(period)).add(Projections.avg("cpu")));
+
+					ProjectionList pl = Projections.projectionList();
+					if (period.equals("month")) {
+						pl.add(Projections.projectionList().add(
+								Projections.sqlGroupProjection("*", "year(date), month(date)", new String[] { "date" }, new Type[] { DateType.INSTANCE })));
+					} else if (period.equals("day")) {
+						pl.add(Projections.projectionList().add(Projections.sqlGroupProjection("*", "day(date)", new String[] { "date" }, new Type[] { DateType.INSTANCE })));
+					} else if (period.equals("hour")) {
+						pl.add(Projections.projectionList().add(
+								Projections.sqlGroupProjection("*", "date(date), hour(date)", new String[] { "date" }, new Type[] { DateType.INSTANCE })));
+					} else {
+						pl.add(Projections.projectionList().add(
+								Projections.sqlGroupProjection("*", "date(date), hour(date), minute(date)", new String[] { "date" }, new Type[] { DateType.INSTANCE })));
+					}
+					if (grouping.equals("max")) {
+						pl.add(Projections.max("date"), "date");
+						pl.add(Projections.max("cpu"), "cpu");
+						pl.add(Projections.max("memory"), "memory");
+						pl.add(Projections.max("network"), "network");
+						pl.add(Projections.max("disk"), "disk");
+					} else if (grouping.equals("min")) {
+						pl.add(Projections.max("date"), "date");
+						pl.add(Projections.min("cpu"), "cpu");
+						pl.add(Projections.min("memory"), "memory");
+						pl.add(Projections.min("network"), "network");
+						pl.add(Projections.min("disk"), "disk");
+					} else {
+						pl.add(Projections.max("date"), "date");
+						pl.add(Projections.avg("cpu"), "cpu");
+						pl.add(Projections.avg("memory"), "memory");
+						pl.add(Projections.avg("network"), "network");
+						pl.add(Projections.avg("disk"), "disk");
+					}
+
+					criteria.setProjection(pl).setResultTransformer(Transformers.aliasToBean(ServerDiagnostics.class));
 					List<ServerDiagnostics> list = criteria.list();
+					System.out.println(list.get(0).getDate());
+					System.out.println(list.get(list.size() - 1).getDate());
 					r.map.put("result", list);
 					session.close();
 				} else if (command.command.equals("getID")) {
