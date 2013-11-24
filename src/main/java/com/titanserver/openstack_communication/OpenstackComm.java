@@ -2,9 +2,8 @@ package com.titanserver.openstack_communication;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -16,13 +15,13 @@ import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
@@ -53,7 +52,8 @@ public class OpenstackComm {
 			initToken();
 		}
 		logger.info("post(), url=" + url + ", headers=" + headers + ", entity=" + entity.replaceAll("'", "\\\\'").replaceAll("\"", "\\\\\""));
-		HttpClient httpClient = new DefaultHttpClient();
+
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 
 		try {
 			HttpPost request = new HttpPost(url);
@@ -74,6 +74,12 @@ public class OpenstackComm {
 			return myString;
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -83,7 +89,7 @@ public class OpenstackComm {
 			initToken();
 		}
 		logger.info("postBytes(), url=" + url + ", headers=" + headers + ", bytes length=" + bytes.length);
-		HttpClient httpClient = new DefaultHttpClient();
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 
 		try {
 			HttpPost request = new HttpPost(url);
@@ -104,6 +110,12 @@ public class OpenstackComm {
 			return myString;
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -113,7 +125,7 @@ public class OpenstackComm {
 			initToken();
 		}
 		//		logger.info("get(), url=" + url + ", headers=" + headers + "checkToken=" + checkToken);
-		HttpClient httpClient = new DefaultHttpClient();
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 
 		try {
 			HttpGet request = new HttpGet(url);
@@ -131,6 +143,12 @@ public class OpenstackComm {
 			return myString;
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -140,7 +158,7 @@ public class OpenstackComm {
 			initToken();
 		}
 		logger.info("delete(), url=" + url + ", headers=" + headers + "checkToken=" + checkToken);
-		HttpClient httpClient = new DefaultHttpClient();
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 
 		try {
 			HttpDelete request = new HttpDelete(url);
@@ -158,6 +176,12 @@ public class OpenstackComm {
 			return myString;
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
