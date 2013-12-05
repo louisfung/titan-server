@@ -105,6 +105,10 @@
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/flavors/$flavorId  -X DELETE  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
     <entry>
+      <string>nova quota-show</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-quota-sets/$Tenant_Id  -X GET  -H &quot;X-Auth-Project-Id: $tenantName&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+    </entry>
+    <entry>
       <string>glance image-list</string>
       <string>curl -s http://localhost:9292//v1/images/detail  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
     </entry>
@@ -113,12 +117,12 @@
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;unpause&quot;: null}&apos;</string>
     </entry>
     <entry>
-      <string>keystone endpoint-list</string>
-      <string>curl -s http://localhost:35357/v2.0//endpoints  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
-    </entry>
-    <entry>
       <string>nova image-list</string>
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/images/detail  -X GET  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+    </entry>
+    <entry>
+      <string>keystone endpoint-list</string>
+      <string>curl -s http://localhost:35357/v2.0//endpoints  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>nova flavor-list</string>
@@ -179,6 +183,10 @@
     <entry>
       <string>nova hard-reboot</string>
       <string>curl -s http://localhost:8774/v2//$Tenant_Id/servers/$InstanceId/action  -X POST  -H &quot;X-Auth-Project-Id: admin&quot;  -H &quot;Content-Type: application/json&quot;  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -d &apos;{&quot;reboot&quot;: {&quot;type&quot;: &quot;HARD&quot;}}&apos;</string>
+    </entry>
+    <entry>
+      <string>nova quota-defaults</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-quota-sets/$Tenant_Id/defaults  -X GET  -H &quot;X-Auth-Project-Id: $Project_name&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>glance image-delete</string>

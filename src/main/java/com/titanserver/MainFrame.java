@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
 		logPanel.setLayout(new BorderLayout(0, 0));
 
 		EnhancedTextArea enhancedTextArea = new EnhancedTextArea();
-		enhancedTextArea.addTrailListener(new File("titan-server.log"), 300, true);
+		enhancedTextArea.addTrailListener(new File("titan-server.log"), 300, false);
 		logPanel.add(enhancedTextArea);
 
 		JPanel openstackTestPanel = new JPanel();

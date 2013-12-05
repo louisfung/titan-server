@@ -66,8 +66,8 @@ public class TitanServer {
 		criteria.add(Restrictions.ge("date", fromDate));
 		criteria.add(Restrictions.le("date", toDate));
 		criteria.addOrder(Order.asc("date"));
-//		criteria.setProjection(Projections.projectionList()
-//				.add(Projections.sqlGroupProjection("hour(date) as x", "hour(date)", new String[] { "x" }, new Type[] { DateType.INSTANCE })).add(Projections.avg("cpu")));
+		//		criteria.setProjection(Projections.projectionList()
+		//				.add(Projections.sqlGroupProjection("hour(date) as x", "hour(date)", new String[] { "x" }, new Type[] { DateType.INSTANCE })).add(Projections.avg("cpu")));
 		List<ServerDiagnostics> list = criteria.list();
 		//System.exit(1);
 
@@ -314,6 +314,12 @@ public class TitanServer {
 
 				setting.novaCommands.put("cinder type-delete", "curl -s " + setting.cinderAdminURL + "/$Tenant_Id/types/$volumeTypeId " + " -X DELETE "
 						+ " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
+
+				setting.novaCommands.put("nova quota-defaults", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/os-quota-sets/$Tenant_Id/defaults " + " -X GET "
+						+ " -H \"X-Auth-Project-Id: $Project_name\"  " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
+
+				setting.novaCommands.put("nova quota-show", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/os-quota-sets/$Tenant_Id " + " -X GET "
+						+ " -H \"X-Auth-Project-Id: $tenantName\"  " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
 
 				System.out.println("Created titan-server.xml");
 				setting.save();
