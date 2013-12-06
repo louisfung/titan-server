@@ -316,10 +316,14 @@ public class TitanServer {
 						+ " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
 
 				setting.novaCommands.put("nova quota-defaults", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/os-quota-sets/$Tenant_Id/defaults " + " -X GET "
-						+ " -H \"X-Auth-Project-Id: $Project_name\"  " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
+						+ " -H \"X-Auth-Project-Id: $tenantName\"  " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
 
 				setting.novaCommands.put("nova quota-show", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/os-quota-sets/$Tenant_Id " + " -X GET "
 						+ " -H \"X-Auth-Project-Id: $tenantName\"  " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" ");
+
+				setting.novaCommands.put("nova quota-update", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/os-quota-sets/$Tenant_Id " + " -X PUT "
+						+ " -H \"X-Auth-Project-Id: $tenantName\"  " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" "
+						+ " -H \"Content-Type: application/json\" " + " -d '{\"quota_set\": {\"tenant_id\": \"$Tenant_Id\", \"$type\": $value}}'");
 
 				System.out.println("Created titan-server.xml");
 				setting.save();
@@ -349,7 +353,7 @@ public class TitanServer {
 			new MainFrame().setVisible(true);
 		}
 
-		startQuartz();
+		//		startQuartz();
 
 		new TitanServer();
 	}

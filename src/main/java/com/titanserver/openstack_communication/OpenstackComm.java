@@ -18,6 +18,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -57,6 +58,43 @@ public class OpenstackComm {
 
 		try {
 			HttpPost request = new HttpPost(url);
+			Iterator<String> iterator = headers.keySet().iterator();
+			while (iterator.hasNext()) {
+				String key = iterator.next();
+				request.setHeader(key, headers.get(key));
+			}
+			if (entity != null) {
+				request.setEntity(new StringEntity(entity, "UTF-8"));
+			}
+
+			HttpResponse response = httpClient.execute(request);
+			HttpEntity responseEntity = response.getEntity();
+			InputStream is = responseEntity.getContent();
+			String myString = IOUtils.toString(is, "UTF-8");
+			is.close();
+			return myString;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public static String put(String url, HashMap<String, String> headers, String entity, boolean checkToken) {
+		if (token == null && checkToken) {
+			initToken();
+		}
+		logger.info("put(), url=" + url + ", headers=" + headers + ", entity=" + entity.replaceAll("'", "\\\\'").replaceAll("\"", "\\\\\""));
+
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+
+		try {
+			HttpPut request = new HttpPut(url);
 			Iterator<String> iterator = headers.keySet().iterator();
 			while (iterator.hasNext()) {
 				String key = iterator.next();
@@ -229,6 +267,7 @@ public class OpenstackComm {
 					temp[1] = parameterTableModel.getValue(temp[1]).toString();
 				}
 				headers.put(temp[0], temp[1]);
+				logger.info(temp[0] + "=" + temp[1]);
 
 				log(enhancedTextArea, temp[0] + "=" + temp[1]);
 			}
@@ -252,6 +291,7 @@ public class OpenstackComm {
 
 		// reconstruct -d
 		url = filter(url, parameterTableModel);
+		logger.info("url=" + url);
 		// end reconstruct -d
 
 		// parse -d
@@ -259,7 +299,7 @@ public class OpenstackComm {
 		boolean postBytes = false;
 		byte bytes[] = null;
 
-		if (command.contains("-X POST")) {
+		if (command.contains("-X POST") || command.contains("-X PUT")) {
 			if (command.contains("-POSTDATA")) {
 				File file = new File("vmImage/" + parameterTableModel.getValue("$POSTDATA").toString());
 				bytes = new byte[(int) file.length()];
@@ -296,6 +336,14 @@ public class OpenstackComm {
 				} else {
 					log(enhancedTextArea, "entity=" + entity);
 					result = OpenstackComm.post(url, headers, entity, true);
+				}
+			} else if (command.contains("-X PUT")) {
+				log(enhancedTextArea, "PUT()");
+				if (postBytes) {
+					result = OpenstackComm.postBytes(url, headers, bytes, true);
+				} else {
+					log(enhancedTextArea, "entity=" + entity);
+					result = OpenstackComm.put(url, headers, entity, true);
 				}
 			} else if (command.contains("-X DELETE")) {
 				log(enhancedTextArea, "delete()");

@@ -149,6 +149,10 @@
       <string>curl -s http://localhost:35357/v2.0//OS-KSADM/roles  -X POST  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;role&quot;: {&quot;name&quot;: &quot;$roleName&quot;}}&apos;</string>
     </entry>
     <entry>
+      <string>nova quota-update</string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-quota-sets/$Tenant_Id  -X PUT  -H &quot;X-Auth-Project-Id: $tenantName&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot;  -H &quot;Content-Type: application/json&quot;  -d &apos;{&quot;quota_set&quot;: {&quot;tenant_id&quot;: &quot;$Tenant_Id&quot;, &quot;$type&quot;: $value}}&apos;</string>
+    </entry>
+    <entry>
       <string>keystone user-list</string>
       <string>curl -s http://localhost:35357/v2.0//users  -X GET  -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
@@ -186,7 +190,7 @@
     </entry>
     <entry>
       <string>nova quota-defaults</string>
-      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-quota-sets/$Tenant_Id/defaults  -X GET  -H &quot;X-Auth-Project-Id: $Project_name&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
+      <string>curl -s http://localhost:8774/v2//$Tenant_Id/os-quota-sets/$Tenant_Id/defaults  -X GET  -H &quot;X-Auth-Project-Id: $tenantName&quot;   -H &quot;Accept: application/json&quot;  -H &quot;X-Auth-Token: $Token&quot; </string>
     </entry>
     <entry>
       <string>glance image-delete</string>
