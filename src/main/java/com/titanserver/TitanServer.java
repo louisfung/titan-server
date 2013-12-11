@@ -323,7 +323,7 @@ public class TitanServer {
 
 				setting.novaCommands.put("nova quota-update", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/os-quota-sets/$Tenant_Id " + " -X PUT "
 						+ " -H \"X-Auth-Project-Id: $tenantName\"  " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" "
-						+ " -H \"Content-Type: application/json\" " + " -d '{\"quota_set\": {\"Tenant_Id\": \"$Tenant_Id\", \"$type\": $value}}'");
+						+ " -H \"Content-Type: application/json\" " + " -d '{\"quota_set\": {\"tenant_id\": \"$Tenant_Id\", \"$type\": $value}}'");
 
 				System.out.println("Created titan-server.xml");
 				setting.save();
