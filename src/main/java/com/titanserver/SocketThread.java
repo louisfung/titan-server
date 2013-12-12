@@ -146,8 +146,6 @@ public class SocketThread implements Runnable {
 
 					criteria.setProjection(pl).setResultTransformer(Transformers.aliasToBean(ServerDiagnostics.class));
 					List<ServerDiagnostics> list = criteria.list();
-					System.out.println(list.get(0).getDate());
-					System.out.println(list.get(list.size() - 1).getDate());
 					r.map.put("result", list);
 					session.close();
 				} else if (command.command.equals("getID")) {

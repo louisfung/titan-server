@@ -267,7 +267,6 @@ public class OpenstackComm {
 					temp[1] = parameterTableModel.getValue(temp[1]).toString();
 				}
 				headers.put(temp[0], temp[1]);
-				logger.info(temp[0] + "=" + temp[1]);
 
 				log(enhancedTextArea, temp[0] + "=" + temp[1]);
 			}
@@ -291,7 +290,7 @@ public class OpenstackComm {
 
 		// reconstruct -d
 		url = filter(url, parameterTableModel);
-		logger.info("url=" + url);
+//		logger.info("url=" + url);
 		// end reconstruct -d
 
 		// parse -d

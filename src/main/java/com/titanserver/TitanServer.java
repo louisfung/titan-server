@@ -353,7 +353,7 @@ public class TitanServer {
 			new MainFrame().setVisible(true);
 		}
 
-		//		startQuartz();
+		startQuartz();
 
 		new TitanServer();
 	}
