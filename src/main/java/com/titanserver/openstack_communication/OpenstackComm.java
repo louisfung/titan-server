@@ -174,6 +174,10 @@ public class OpenstackComm {
 	}
 
 	public static HttpResult get(String url, HashMap<String, String> headers, boolean checkToken) {
+		return get(url, headers, checkToken, true);
+	}
+
+	public static HttpResult get(String url, HashMap<String, String> headers, boolean checkToken, boolean getContent) {
 		if (token == null && checkToken) {
 			initToken();
 		}
@@ -188,10 +192,13 @@ public class OpenstackComm {
 				request.setHeader(key, headers.get(key));
 			}
 			HttpResponse response = httpClient.execute(request);
-			HttpEntity responseEntity = response.getEntity();
-			InputStream is = responseEntity.getContent();
-			String myString = IOUtils.toString(is, "UTF-8");
-			is.close();
+			String myString = null;
+			if (getContent) {
+				HttpEntity responseEntity = response.getEntity();
+				InputStream is = responseEntity.getContent();
+				myString = IOUtils.toString(is, "UTF-8");
+				is.close();
+			}
 
 			HttpResult httpResult = new HttpResult();
 			httpResult.content = myString;
@@ -254,7 +261,7 @@ public class OpenstackComm {
 				+ "\", \"passwordCredentials\": {\"username\": \"" + TitanServerSetting.getInstance().novaOsUsername + "\", \"password\": \""
 				+ TitanServerSetting.getInstance().novaOsPassword + "\"}}}", false);
 
-		JSONObject json = JSONObject.fromObject(result);
+		JSONObject json = JSONObject.fromObject(result.content);
 		token = json.getJSONObject("access").getJSONObject("token").getString("id");
 		tenantId = json.getJSONObject("access").getJSONObject("token").getJSONObject("tenant").getString("id");
 	}
@@ -268,6 +275,7 @@ public class OpenstackComm {
 	}
 
 	public static HttpResult execute(String command, ParameterTableModel parameterTableModel, EnhancedTextArea enhancedTextArea) {
+		boolean getContent = true;
 		command = initCommand(command);
 		if (command == null) {
 			HttpResult httpResult = new HttpResult();
@@ -288,7 +296,11 @@ public class OpenstackComm {
 				groupStr = groupStr.substring(0, groupStr.length() - 1);
 				String temp[] = groupStr.split(":");
 				temp[1] = temp[1].trim();
-				if (temp[1].contains("$")) {
+				if (temp[0].startsWith("CUSTOM")) {
+					if (temp[1].equals("NOCONTENT")) {
+						getContent = false;
+					}
+				} else if (temp[1].contains("$")) {
 					temp[1] = parameterTableModel.getValue(temp[1]).toString();
 				}
 				headers.put(temp[0], temp[1]);
@@ -374,7 +386,11 @@ public class OpenstackComm {
 				result = OpenstackComm.delete(url, headers, true);
 			} else {
 				log(enhancedTextArea, "GET()");
-				result = OpenstackComm.get(url, headers, true);
+				if (getContent) {
+					result = OpenstackComm.get(url, headers, true);
+				} else {
+					result = OpenstackComm.get(url, headers, true, false);
+				}
 			}
 			logJSon(enhancedTextArea, result.content);
 			return result;
@@ -493,10 +509,12 @@ public class OpenstackComm {
 		try {
 			enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + formatJSon(str));
 		} catch (Exception ex) {
-			if (str.length() < maxLogLength) {
-				enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str);
-			} else {
-				enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str.substring(0, maxLogLength));
+			if (str != null) {
+				if (str.length() < maxLogLength) {
+					enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str);
+				} else {
+					enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str.substring(0, maxLogLength));
+				}
 			}
 		}
 	}

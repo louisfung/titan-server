@@ -174,7 +174,7 @@
     </entry>
     <entry>
       <string>glance image-show</string>
-      <string>curl -s http://localhost:9292//v1/images/$imageId  -X GET  -H &quot;Content-Type: application/octet-stream&quot;  -H &quot;X-Auth-Token: $Token&quot;</string>
+      <string>curl -s http://localhost:9292//v1/images/$imageId  -X GET  -H &quot;Content-Type: application/octet-stream&quot;  -H &quot;X-Auth-Token: $Token&quot; -H &quot;CUSTOM: NOCONTENT&quot;</string>
     </entry>
     <entry>
       <string>nova pause</string>

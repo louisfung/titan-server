@@ -210,7 +210,7 @@ public class TitanServer {
 						+ " -H \"X-Auth-Token: $Token\"");
 
 				setting.novaCommands.put("glance image-show", "curl -s " + setting.glanceAdminURL + "/v1/images/$imageId " + " -X GET "
-						+ " -H \"Content-Type: application/octet-stream\" " + " -H \"X-Auth-Token: $Token\"");
+						+ " -H \"Content-Type: application/octet-stream\" " + " -H \"X-Auth-Token: $Token\"" + " -H \"CUSTOM: NOCONTENT\"");
 
 				setting.novaCommands.put("glance image-create", "curl -s " + setting.glanceAdminURL + "/v1/images " + " -X POST " + " -H \"Accept: application/json\" "
 						+ " -H \"Content-Type: application/octet-stream\" " + " -H \"X-Auth-Token: $Token\"" + " -H \"x-image-meta-name: $x-image-meta-name\" "

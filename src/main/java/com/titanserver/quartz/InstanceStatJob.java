@@ -15,6 +15,7 @@ import org.quartz.JobExecutionException;
 
 import com.titanserver.Command;
 import com.titanserver.HibernateUtil;
+import com.titanserver.HttpResult;
 import com.titanserver.ReturnCommand;
 import com.titanserver.TitanServerCommonLib;
 import com.titanserver.table.InstanceDiagnostics;
@@ -26,12 +27,12 @@ public class InstanceStatJob implements Job {
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		logger.info("executing schedule job : " + arg0.getJobInstance().toString());
 		Session session = HibernateUtil.openSession();
-		Object result = null;
+		String result = null;
 		try {
 			Command command = new Command();
 			command.command = "from titan: nova list";
 			ReturnCommand r = TitanServerCommonLib.execute(command);
-			result = r.map.get("result");
+			result = ((HttpResult) r.map.get("result")).content;
 			JSONArray servers = JSONObject.fromObject(result).getJSONArray("servers");
 			for (int x = 0; x < servers.size(); x++) {
 				JSONObject obj = servers.getJSONObject(x);
