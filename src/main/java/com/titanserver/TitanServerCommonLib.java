@@ -284,7 +284,7 @@ public class TitanServerCommonLib {
 				parameterTableModel.values.add(parameters.get(key));
 			}
 		}
-		String result = OpenstackComm.execute(command.command, parameterTableModel);
+		HttpResult result = OpenstackComm.execute(command.command, parameterTableModel);
 		r.map.put("result", result);
 		return r;
 	}

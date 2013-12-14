@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
@@ -30,6 +31,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.peterswing.advancedswing.enhancedtextarea.EnhancedTextArea;
+import com.titanserver.HttpResult;
 import com.titanserver.ParameterTableModel;
 import com.titanserver.TitanServerCommonLib;
 import com.titanserver.TitanServerSetting;
@@ -43,12 +45,13 @@ public class OpenstackComm {
 
 	public static String tenantID;
 	public static String token;
+	public static int maxLogLength = 2000;
 
 	public static void main(String args[]) {
 		initToken();
 	}
 
-	public static String post(String url, HashMap<String, String> headers, String entity, boolean checkToken) {
+	public static HttpResult post(String url, HashMap<String, String> headers, String entity, boolean checkToken) {
 		if (token == null && checkToken) {
 			initToken();
 		}
@@ -72,7 +75,11 @@ public class OpenstackComm {
 			InputStream is = responseEntity.getContent();
 			String myString = IOUtils.toString(is, "UTF-8");
 			is.close();
-			return myString;
+
+			HttpResult httpResult = new HttpResult();
+			httpResult.content = myString;
+			httpResult.headers = response.getAllHeaders();
+			return httpResult;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -85,7 +92,7 @@ public class OpenstackComm {
 		return null;
 	}
 
-	public static String put(String url, HashMap<String, String> headers, String entity, boolean checkToken) {
+	public static HttpResult put(String url, HashMap<String, String> headers, String entity, boolean checkToken) {
 		if (token == null && checkToken) {
 			initToken();
 		}
@@ -109,7 +116,11 @@ public class OpenstackComm {
 			InputStream is = responseEntity.getContent();
 			String myString = IOUtils.toString(is, "UTF-8");
 			is.close();
-			return myString;
+
+			HttpResult httpResult = new HttpResult();
+			httpResult.content = myString;
+			httpResult.headers = response.getAllHeaders();
+			return httpResult;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -122,7 +133,7 @@ public class OpenstackComm {
 		return null;
 	}
 
-	public static String postBytes(String url, HashMap<String, String> headers, byte bytes[], boolean checkToken) {
+	public static HttpResult postBytes(String url, HashMap<String, String> headers, byte bytes[], boolean checkToken) {
 		if (token == null && checkToken) {
 			initToken();
 		}
@@ -145,7 +156,11 @@ public class OpenstackComm {
 			InputStream is = responseEntity.getContent();
 			String myString = IOUtils.toString(is, "UTF-8");
 			is.close();
-			return myString;
+
+			HttpResult httpResult = new HttpResult();
+			httpResult.content = myString;
+			httpResult.headers = response.getAllHeaders();
+			return httpResult;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -158,7 +173,7 @@ public class OpenstackComm {
 		return null;
 	}
 
-	public static String get(String url, HashMap<String, String> headers, boolean checkToken) {
+	public static HttpResult get(String url, HashMap<String, String> headers, boolean checkToken) {
 		if (token == null && checkToken) {
 			initToken();
 		}
@@ -178,7 +193,10 @@ public class OpenstackComm {
 			String myString = IOUtils.toString(is, "UTF-8");
 			is.close();
 
-			return myString;
+			HttpResult httpResult = new HttpResult();
+			httpResult.content = myString;
+			httpResult.headers = response.getAllHeaders();
+			return httpResult;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -191,7 +209,7 @@ public class OpenstackComm {
 		return null;
 	}
 
-	public static String delete(String url, HashMap<String, String> headers, boolean checkToken) {
+	public static HttpResult delete(String url, HashMap<String, String> headers, boolean checkToken) {
 		if (token == null && checkToken) {
 			initToken();
 		}
@@ -211,7 +229,10 @@ public class OpenstackComm {
 			String myString = IOUtils.toString(is, "UTF-8");
 			is.close();
 
-			return myString;
+			HttpResult httpResult = new HttpResult();
+			httpResult.content = myString;
+			httpResult.headers = response.getAllHeaders();
+			return httpResult;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -229,26 +250,30 @@ public class OpenstackComm {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
 		headers.put("Accept", "application/json");
-		String result = post(url, headers, "{\"auth\": {\"tenantName\": \"" + TitanServerSetting.getInstance().novaOsTenantName + "\", \"passwordCredentials\": {\"username\": \""
-				+ TitanServerSetting.getInstance().novaOsUsername + "\", \"password\": \"" + TitanServerSetting.getInstance().novaOsPassword + "\"}}}", false);
+		HttpResult result = post(url, headers, "{\"auth\": {\"tenantName\": \"" + TitanServerSetting.getInstance().novaOsTenantName
+				+ "\", \"passwordCredentials\": {\"username\": \"" + TitanServerSetting.getInstance().novaOsUsername + "\", \"password\": \""
+				+ TitanServerSetting.getInstance().novaOsPassword + "\"}}}", false);
 
 		JSONObject json = JSONObject.fromObject(result);
 		token = json.getJSONObject("access").getJSONObject("token").getString("id");
 		tenantId = json.getJSONObject("access").getJSONObject("token").getJSONObject("tenant").getString("id");
 	}
 
-	public static String execute(String command, ParameterTableModel parameterTableModel) {
+	public static HttpResult execute(String command, ParameterTableModel parameterTableModel) {
 		return execute(command, null, parameterTableModel);
 	}
 
-	public static String execute(String command, EnhancedTextArea enhancedTextArea, ParameterTableModel parameterTableModel) {
+	public static HttpResult execute(String command, EnhancedTextArea enhancedTextArea, ParameterTableModel parameterTableModel) {
 		return execute(command, parameterTableModel, enhancedTextArea);
 	}
 
-	public static String execute(String command, ParameterTableModel parameterTableModel, EnhancedTextArea enhancedTextArea) {
+	public static HttpResult execute(String command, ParameterTableModel parameterTableModel, EnhancedTextArea enhancedTextArea) {
 		command = initCommand(command);
 		if (command == null) {
-			return "command not found";
+			HttpResult httpResult = new HttpResult();
+			httpResult.content = "command not found";
+			httpResult.headers = null;
+			return httpResult;
 		}
 		initParameters(command, parameterTableModel);
 		Pattern pattern = Pattern.compile("-H \"[^\"]+\"");
@@ -290,7 +315,7 @@ public class OpenstackComm {
 
 		// reconstruct -d
 		url = filter(url, parameterTableModel);
-//		logger.info("url=" + url);
+		//		logger.info("url=" + url);
 		// end reconstruct -d
 
 		// parse -d
@@ -327,7 +352,7 @@ public class OpenstackComm {
 
 		if (url != null) {
 			log(enhancedTextArea, "url=" + url);
-			String result = null;
+			HttpResult result = null;
 			if (command.contains("-X POST")) {
 				log(enhancedTextArea, "POST()");
 				if (postBytes) {
@@ -351,7 +376,7 @@ public class OpenstackComm {
 				log(enhancedTextArea, "GET()");
 				result = OpenstackComm.get(url, headers, true);
 			}
-			logJSon(enhancedTextArea, result);
+			logJSon(enhancedTextArea, result.content);
 			return result;
 		} else {
 			log(enhancedTextArea, "url error");
@@ -468,7 +493,11 @@ public class OpenstackComm {
 		try {
 			enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + formatJSon(str));
 		} catch (Exception ex) {
-			enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str);
+			if (str.length() < maxLogLength) {
+				enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str);
+			} else {
+				enhancedTextArea.setText(enhancedTextArea.getText() + "\n" + str.substring(0, maxLogLength));
+			}
 		}
 	}
 

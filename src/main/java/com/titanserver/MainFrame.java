@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +24,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
@@ -104,6 +107,10 @@ public class MainFrame extends JFrame {
 		//		sortableCommandTableModel.sortByColumn(0, true);
 
 		commandTable.setRowSorter(sorter);
+		ArrayList<RowSorter.SortKey> list = new ArrayList<RowSorter.SortKey>();
+		list.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+		sorter.setSortKeys(list);
+		sorter.sort();
 
 		scrollPane.setViewportView(commandTable);
 

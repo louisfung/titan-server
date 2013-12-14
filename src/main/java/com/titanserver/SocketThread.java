@@ -172,7 +172,7 @@ public class SocketThread implements Runnable {
 							parameterTableModel.values.add(parameters.get(key));
 						}
 					}
-					String result = OpenstackComm.execute(command.command, parameterTableModel);
+					HttpResult result = OpenstackComm.execute(command.command, parameterTableModel);
 					r.map.put("result", result);
 				} else if (command.command.equals("send file")) {
 					if (!new File("vmImage").exists()) {
