@@ -248,6 +248,10 @@ public class TitanServer {
 						+ " -H \"X-Auth-Project-Id: admin\" " + " -H \"Content-Type: application/json\" " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" "
 						+ " -d '{\"resume\": null}'");
 
+				setting.novaCommands.put("nova rename", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/servers/$InstanceId " + " -X PUT " + " -H \"X-Auth-Project-Id: admin\" "
+						+ " -H \"Content-Type: application/json\" " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" "
+						+ " -d '{\"server\": {\"name\": \"$name\"}}'");
+
 				setting.novaCommands.put("nova soft-reboot", "curl -s " + setting.novaAdminURL + "/$Tenant_Id/servers/$InstanceId/action " + " -X POST "
 						+ " -H \"X-Auth-Project-Id: admin\" " + " -H \"Content-Type: application/json\" " + " -H \"Accept: application/json\" " + " -H \"X-Auth-Token: $Token\" "
 						+ " -d '{\"reboot\": {\"type\": \"SOFT\"}}'");
